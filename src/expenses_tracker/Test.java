@@ -1,4 +1,4 @@
-package budget_app;
+package expenses_tracker;
 
 public class Test {
     public static void main(String[] args) {
