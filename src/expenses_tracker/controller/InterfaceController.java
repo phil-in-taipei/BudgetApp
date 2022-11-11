@@ -3,6 +3,11 @@ package expenses_tracker.controller;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
+
+import expenses_tracker.models.UserModel;
+import expenses_tracker.models.BankModel;
+
+
 public class InterfaceController {
 
     static boolean continueMainLoop = true;
@@ -32,7 +37,7 @@ public class InterfaceController {
         }
     }
 
-    public String getMenuOption() {
+    public static String getMenuOption() {
         Scanner eventOptionScanner = new Scanner(System.in);
         String loopOption = eventOptionScanner.nextLine();
         PrintInfoClass.printDividerLine();
@@ -44,17 +49,29 @@ public class InterfaceController {
     public static void handleMainMenuInput(String menuOptionInput) {
         if (Objects.equals(menuOptionInput, "1")) {
             System.out.println("User Info Menu");
+            String [] fields = UserModel.getModelFields();
             PrintInfoClass.printSubMenuOptionPrompt("User");
-            PrintInfoClass.printDividerLine();
+
+            String subMenuOption = getMenuOption();
+            //handleMainMenuInput(menuOptionInput);
+            handleSubMenuInput(subMenuOption, "User", fields);
         } else if (Objects.equals(menuOptionInput, "2")) {
             System.out.println("Savings Menu");
             PrintInfoClass.printSubMenuOptionPrompt("Savings");
             PrintInfoClass.printDividerLine();
         } else if (Objects.equals(menuOptionInput, "3")) {
+            System.out.println("Banks Menu");
+            PrintInfoClass.printSubMenuOptionPrompt("Banks");
+            String [] fields = BankModel.getModelFields();
+            String subMenuOption = getMenuOption();
+            //handleMainMenuInput(menuOptionInput);
+            handleSubMenuInput(subMenuOption, "Bank", fields);
+            PrintInfoClass.printDividerLine();
+        } else if (Objects.equals(menuOptionInput, "4")) {
             System.out.println("Expenses Menu");
             PrintInfoClass.printSubMenuOptionPrompt("Expenses");
             PrintInfoClass.printDividerLine();
-        } else if (Objects.equals(menuOptionInput, "4")) {
+        } else if (Objects.equals(menuOptionInput, "5")) {
             System.out.println("Financial Goal Menu");
             PrintInfoClass.printSubMenuOptionPrompt("Financial Goals");
             PrintInfoClass.printDividerLine();
@@ -63,19 +80,23 @@ public class InterfaceController {
         }
     }
 
-    public static void handleSubMenuInput(String menuOptionInput, String submenuName) {
-        if (Objects.equals(menuOptionInput, "1")) {
+    public static void handleSubMenuInput(
+            String subMenuOptionInput, String submenuName,
+            String[] fields
+        ) {
+        System.out.println("These are the fields:");
+        for (String field : fields) {
+            System.out.print(" " + field);
+        }
+        System.out.println("\n");
+        if (Objects.equals(subMenuOptionInput, "1")) {
             System.out.println("Create " +submenuName + " Menu");
-            PrintInfoClass.printDividerLine();
-        } else if (Objects.equals(menuOptionInput, "2")) {
+        } else if (Objects.equals(subMenuOptionInput, "2")) {
             System.out.println("Update " +submenuName + " Menu");
-            PrintInfoClass.printDividerLine();
-        } else if (Objects.equals(menuOptionInput, "3")) {
+        } else if (Objects.equals(subMenuOptionInput, "3")) {
             System.out.println("Delete " +submenuName + " Menu");
-            PrintInfoClass.printDividerLine();
         } else {
             System.out.println("Display " +submenuName + " Menu");
-            PrintInfoClass.printDividerLine();
         }
     }
 }

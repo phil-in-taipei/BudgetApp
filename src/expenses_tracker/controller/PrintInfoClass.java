@@ -45,9 +45,10 @@ public class PrintInfoClass {
                 "Please input menu option:"
                         + "\n1) User Information"
                         + "\n2) Savings"
-                        + "\n3) Expenses"
-                        + "\n4) Financial Goal"
-                        + "\n5) Reports"
+                        + "\n3) Banks"
+                        + "\n4) Expenses"
+                        + "\n5) Financial Goal"
+                        + "\n6) Reports"
 
         );
     }
