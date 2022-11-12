@@ -6,6 +6,16 @@ public class UserModel {
     String surname;
     String email;
 
+    @Override
+    public String toString() {
+        return "UserModel{" +
+                "id=" + id +
+                ", givenName='" + givenName + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
     public static String[] getModelFields () {
         return new String[]{"id", "givenName", "surname", "email"};
     }

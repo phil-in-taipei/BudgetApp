@@ -14,6 +14,14 @@ public class PrintInfoClass {
         );
     }
 
+    public static void printCreatePrompt(String fieldName, String submenuName) {
+        System.out.println("Create a new " + submenuName);
+        printDividerLine();
+        System.out.println(
+                "Please enter a " + fieldName
+        );
+    }
+
     public static void printDividerLine() {
         System.out.println("-----------------------------------------------------------------------------");
     }

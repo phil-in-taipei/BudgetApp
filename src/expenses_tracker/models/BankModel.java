@@ -2,6 +2,15 @@ package expenses_tracker.models;
 
 public class BankModel {
     int id;
+
+    @Override
+    public String toString() {
+        return "BankModel{" +
+                "id=" + id +
+                ", bankName='" + bankName + '\'' +
+                '}';
+    }
+
     String bankName;
 
     public static String[] getModelFields () {
