@@ -14,6 +14,7 @@ import expenses_tracker.services.UserService;
 
 public class InterfaceController {
     static boolean continueMainLoop = true;
+    static boolean continueSubMenuLoop = true;
     public static void main(String[] args) {
 
         while(continueMainLoop) {
@@ -25,8 +26,6 @@ public class InterfaceController {
 
             String menuOptionInput = controller.getMenuOption();
             continueMainLoop = handleMainMenuInput(menuOptionInput);
-            PrintInfoClass.printDividerLine();
-
         }
         PrintInfoClass.printExit("Budget Tracker Main Menu");
     }
@@ -48,13 +47,17 @@ public class InterfaceController {
             inputData[i] = fieldInput;
         }
         BankModel newBank = BankService.createNewBank(inputData);
+        PrintInfoClass.printDividerLine();
         System.out.println("New bank created: " + newBank.toString());
+        PrintInfoClass.printDividerLine();
         System.out.println("In bank state: " + BankState.banksHashMap.get(newBank.getId()));
+        PrintInfoClass.printDividerLine();
     }
 
     public static void handleCreateInput(String[] fields, String submenuName) {
         String[] inputData = new String[fields.length];
-        System.out.println("The is the obj to be created: " + submenuName);
+        //System.out.println("The is the obj to be created: " + submenuName);
+        PrintInfoClass.printDividerLine();
         if (submenuName == "User") {
             handleCreateUserInput(fields, submenuName, inputData);
         } else if (submenuName == "Bank") {
@@ -72,20 +75,19 @@ public class InterfaceController {
             inputData[i] = fieldInput;
         }
         UserModel newUser = UserService.createNewUser(inputData);
+        PrintInfoClass.printDividerLine();
         System.out.println("New user created: " + newUser.toString());
+        PrintInfoClass.printDividerLine();
         System.out.println("In user state: " + UserState.usersHashMap.get(newUser.getId()));
+        PrintInfoClass.printDividerLine();
     }
 
     public static void handleDisplayOfObjects(String submenuName) {
-        System.out.println("These are the objs to be displayed: " + submenuName);
+        //System.out.println("These are the objs to be displayed: " + submenuName);
         if (submenuName == "User") {
             PrintInfoClass.printUserObjectsInState(UserState.usersHashMap);
-            //}
         } else if (submenuName == "Bank") {
-            System.out.println("Elements of Banks ArrayList are:");
-            for (BankModel bank : BankState.banks) {
-                System.out.println("Bank: " + bank.toString());
-            }
+            PrintInfoClass.printBankObjectsInState(BankState.banksHashMap);
         } else {
             System.out.println("No option");
         }
@@ -93,34 +95,39 @@ public class InterfaceController {
 
     public static boolean handleMainMenuInput(String menuOptionInput) {
         if (Objects.equals(menuOptionInput, "1")) {
-            System.out.println("User Info Menu");
-            String [] fields = UserModel.getModelFields();
-            PrintInfoClass.printSubMenuOptionPrompt("User");
-            String subMenuOption = getMenuOption();
-            handleSubMenuInput(subMenuOption, "User", fields);
+            while(continueSubMenuLoop) {
+                continueSubMenuLoop = true;
+                System.out.println("User Info Menu");
+                String[] fields = UserModel.getModelFields();
+                PrintInfoClass.printSubMenuOptionPrompt("User");
+                String subMenuOption = getMenuOption();
+                continueSubMenuLoop = handleSubMenuInput(subMenuOption, "User", fields);
+            }
             return true;
         } else if (Objects.equals(menuOptionInput, "2")) {
             System.out.println("Savings Menu");
             PrintInfoClass.printSubMenuOptionPrompt("Savings");
-            PrintInfoClass.printDividerLine();
             return true;
         } else if (Objects.equals(menuOptionInput, "3")) {
-            System.out.println("Banks Menu");
-            PrintInfoClass.printSubMenuOptionPrompt("Banks");
-            String [] fields = BankModel.getModelFields();
-            String subMenuOption = getMenuOption();
-            handleSubMenuInput(subMenuOption, "Bank", fields);
-            PrintInfoClass.printDividerLine();
+            while(continueSubMenuLoop) {
+                continueSubMenuLoop = true;
+                System.out.println("Banks Menu");
+                PrintInfoClass.printSubMenuOptionPrompt("Banks");
+                String[] fields = BankModel.getModelFields();
+                String subMenuOption = getMenuOption();
+                continueSubMenuLoop = handleSubMenuInput(subMenuOption, "Bank", fields);
+            }
             return true;
         } else if (Objects.equals(menuOptionInput, "4")) {
             System.out.println("Expenses Menu");
             PrintInfoClass.printSubMenuOptionPrompt("Expenses");
-            PrintInfoClass.printDividerLine();
             return true;
         } else if (Objects.equals(menuOptionInput, "5")) {
             System.out.println("Financial Goal Menu");
             PrintInfoClass.printSubMenuOptionPrompt("Financial Goals");
-            PrintInfoClass.printDividerLine();
+            return true;
+        } else if (Objects.equals(menuOptionInput, "6")) {
+            System.out.println("Reports Menu");
             return true;
         }else {
             System.out.println("Exit Menu");
@@ -128,27 +135,51 @@ public class InterfaceController {
         }
     }
 
-    public static void handleSubMenuInput(
+    public static boolean handleSubMenuInput(
             String subMenuOptionInput, String submenuName,
             String[] fields
         ) {
-        System.out.println("These are the fields:");
-        for (String field : fields) {
-            System.out.print(" " + field);
-        }
-        System.out.println("\n");
+        //System.out.println("These are the fields:");
+        //for (String field : fields) {
+        //    System.out.print(" " + field);
+        //}
+        //System.out.println("\n");
         if (Objects.equals(subMenuOptionInput, "1")) {
             System.out.println("Create " +submenuName + " Menu");
             handleCreateInput(fields, submenuName);
+            return true;
         } else if (Objects.equals(subMenuOptionInput, "2")) {
             System.out.println("Update " +submenuName + " Menu");
             handleUpdateInput(fields, submenuName);
+            return true;
         } else if (Objects.equals(subMenuOptionInput, "3")) {
             System.out.println("Delete " +submenuName + " Menu");
-        } else {
+            return true;
+        } else if (Objects.equals(subMenuOptionInput, "4")) {
             System.out.println("Display " +submenuName + " Menu");
             handleDisplayOfObjects(submenuName);
+            return true;
+        } else {
+            System.out.println("Back to Main Menu");
+            return false;
         }
+    }
+
+    public static void handleUpdateBankInput(String[] fields, String submenuName, String[] inputData) {
+        Scanner eventOptionScanner = new Scanner(System.in);
+        System.out.println("Which bank would you like to update (enter bank id)?");
+        String userIdInput = eventOptionScanner.nextLine();
+        int updatedIndex = Integer.parseInt(userIdInput);
+        for (int i = 1; i < fields.length; i++) {
+            PrintInfoClass.printCreatePrompt(fields[i], submenuName);
+            String fieldInput = eventOptionScanner.nextLine();
+            inputData[i] = fieldInput;
+        }
+        BankModel updatedBank = BankService.updateExistingBank(inputData, updatedIndex);
+        PrintInfoClass.printDividerLine();
+        System.out.println("Bank updated: " + updatedBank.toString());
+        PrintInfoClass.printDividerLine();
+        System.out.println("Bank state updated: " + BankState.banksHashMap.get(updatedBank.getId()));
     }
 
     public static void handleUpdateInput(String[] fields, String submenuName) {
@@ -158,9 +189,7 @@ public class InterfaceController {
         if (submenuName == "User") {
             handleUpdateUserInput(fields, submenuName,inputData);
         } else if (submenuName == "Bank") {
-            BankModel newBank = BankService.createNewBank(inputData);
-            System.out.println("New bank created: " + newBank.toString());
-            System.out.println("In bank state: " + BankState.banks.get(BankState.banks.size() - 1).toString());
+            handleUpdateBankInput(fields, submenuName, inputData);
         } else {
             System.out.println("No more options");
         }
@@ -178,7 +207,9 @@ public class InterfaceController {
             inputData[i] = fieldInput;
         }
         UserModel updatedUser = UserService.updateExistingUser(inputData, updatedIndex);
+        PrintInfoClass.printDividerLine();
         System.out.println("New user created: " + updatedUser.toString());
+        PrintInfoClass.printDividerLine();
         System.out.println("In user state: " + UserState.usersHashMap.get(updatedUser.getId()));
     }
 }
