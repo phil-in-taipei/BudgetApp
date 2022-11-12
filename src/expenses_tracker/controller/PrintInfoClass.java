@@ -1,5 +1,12 @@
 package expenses_tracker.controller;
 
+import expenses_tracker.models.UserModel;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 public class PrintInfoClass {
 
     static String BLACK_TEXT = "\u001B[30m";
@@ -57,6 +64,7 @@ public class PrintInfoClass {
                         + "\n4) Expenses"
                         + "\n5) Financial Goal"
                         + "\n6) Reports"
+                        + "\n7) Exit"
 
         );
     }
@@ -71,5 +79,20 @@ public class PrintInfoClass {
                         + "\n4) Display " + submenuName
 
         );
+    }
+
+    public static void printUserObjectsInState(HashMap<Integer, UserModel> usersHashMap) {
+        System.out.println("Each element (key and value) in the HashMap using entries");
+        PrintInfoClass.printDividerLine();
+        Set entries = usersHashMap.entrySet();
+        Iterator iterator = entries.iterator();
+        while(iterator.hasNext()) {
+            // get each Entry individually
+            Map.Entry studentStatus = (Map.Entry)iterator.next();
+            // print out the entry's key and value
+
+            System.out.println("The key (student) is: "+ studentStatus.getKey()
+                    + " and the value (status) is: " + studentStatus.getValue());
+        }
     }
 }
