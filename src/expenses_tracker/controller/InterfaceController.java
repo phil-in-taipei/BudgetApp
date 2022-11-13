@@ -29,7 +29,7 @@ public class InterfaceController {
             Scanner eventOptionScanner = new Scanner(System.in);
             String menuOptionInput = getMenuOption(eventOptionScanner);
             continueMainLoop = handleMainMenuInput(menuOptionInput);
-            System.out.println("Continue Main Loop: " + continueMainLoop);
+            //System.out.println("Continue Main Loop: " + continueMainLoop);
         }
         PrintInfoClass.printExit("Budget Tracker Main Menu");
         database.closeDatabaseConnection();
@@ -43,22 +43,22 @@ public class InterfaceController {
         return loopOption;
     }
 
-    public static void handleCreateBankInput(String[] fields, String submenuName, String[] inputData) {
+    public static void handleCreateBankInput(
+            String[] fields, String submenuName, String[] inputData)
+            throws SQLException {
         Scanner eventOptionScanner = new Scanner(System.in);
-        for (int i = 0; i < fields.length; i++) {
+        for (int i = 1; i < fields.length; i++) {
             PrintInfoClass.printCreatePrompt(fields[i], submenuName);
             String fieldInput = eventOptionScanner.nextLine();
             inputData[i] = fieldInput;
         }
-        BankModel newBank = BankService.createNewBank(inputData);
-        PrintInfoClass.printDividerLine();
-        System.out.println("New bank created: " + newBank.toString());
-        PrintInfoClass.printDividerLine();
-        System.out.println("In bank state: " + BankState.banksHashMap.get(newBank.getId()));
+        BankService.insertBankIntoDatabase(inputData[1], dbConnection);
+        BankService.updateBankHashmap(dbConnection);
         PrintInfoClass.printDividerLine();
     }
 
-    public static void handleCreateInput(String[] fields, String submenuName) throws SQLException {
+    public static void handleCreateInput(
+            String[] fields, String submenuName) throws SQLException {
         String[] inputData = new String[fields.length];
         //System.out.println("The is the obj to be created: " + submenuName);
         PrintInfoClass.printDividerLine();
@@ -71,20 +71,19 @@ public class InterfaceController {
         }
     }
 
-    public static void handleCreateUserInput(String[] fields, String submenuName, String[] inputData) throws SQLException {
+    public static void handleCreateUserInput(
+            String[] fields, String submenuName, String[] inputData)
+            throws SQLException {
         Scanner eventOptionScanner = new Scanner(System.in);
         for (int i = 1; i < fields.length; i++) {
             PrintInfoClass.printCreatePrompt(fields[i], submenuName);
             String fieldInput = eventOptionScanner.nextLine();
             inputData[i] = fieldInput;
         }
-        //UserModel newUser = UserService.createNewUser(inputData);
-        UserService.insertUserIntoDatabase(inputData[1], inputData[2], inputData[3], dbConnection);
-        PrintInfoClass.printDividerLine();
-        UserService.updateUserHashmap(dbConnection); //  populateUserHashmap
-        //System.out.println("New user created: " + newUser.toString());
-        PrintInfoClass.printDividerLine();
-        //System.out.println("In user state: " + UserState.usersHashMap.get(newUser.getId()));
+        UserService.insertUserIntoDatabase(inputData[1], inputData[2],
+                inputData[3], dbConnection);
+        //PrintInfoClass.printDividerLine();
+        UserService.updateUserHashmap(dbConnection);
         PrintInfoClass.printDividerLine();
     }
 
@@ -100,18 +99,18 @@ public class InterfaceController {
     }
 
     public static boolean handleMainMenuInput(String menuOptionInput) throws SQLException {
-        System.out.println("Calling Handle Main Menu Method with input: " + menuOptionInput);
+        //System.out.println("Calling Handle Main Menu Method with input: " + menuOptionInput);
         if (Objects.equals(menuOptionInput, "1")) {
             UserService.populateUserHashmap(dbConnection);
             continueSubMenuLoop = true;
             while(continueSubMenuLoop) {
                 System.out.println("User Info Menu");
                 String[] fields = UserModel.getModelFields();
-                PrintInfoClass.printSubMenuOptionPrompt("User");
+                PrintInfoClass.printSubMenuOptionPrompt("Users");
                 Scanner eventOptionScanner = new Scanner(System.in);
                 String subMenuOption = getMenuOption(eventOptionScanner);
                 continueSubMenuLoop = handleSubMenuInput(subMenuOption, "User", fields);
-                System.out.println("Continue submenu loop: " + continueSubMenuLoop);
+                //System.out.println("Continue submenu loop: " + continueSubMenuLoop);
             }
             return true;
         } else if (Objects.equals(menuOptionInput, "2")) {
@@ -128,7 +127,7 @@ public class InterfaceController {
                 Scanner eventOptionScanner = new Scanner(System.in);
                 String subMenuOption = getMenuOption(eventOptionScanner);
                 continueSubMenuLoop = handleSubMenuInput(subMenuOption, "Bank", fields);
-                System.out.println("Continue submenu loop: " + continueSubMenuLoop);
+                //System.out.println("Continue submenu loop: " + continueSubMenuLoop);
             }
             return true;
         } else if (Objects.equals(menuOptionInput, "4")) {

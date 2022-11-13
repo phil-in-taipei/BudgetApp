@@ -24,11 +24,12 @@ public class PrintInfoClass {
             System.out.println("The key (bank id) is: "+ bankObj.getKey()
                     + " and the value (bank obj) is: " + bankObj.getValue());
         }
+        PrintInfoClass.printDividerLine();
     }
 
     public static void printCreatePrompt(String fieldName, String submenuName) {
         //System.out.println("Create a new " + submenuName);
-        printDividerLine();
+        //printDividerLine();
         System.out.println(
                 "Please enter a " + fieldName
         );
@@ -101,5 +102,6 @@ public class PrintInfoClass {
             System.out.println("The key (user id) is: "+ userObj.getKey()
                     + " and the value (user obj) is: " + userObj.getValue());
         }
+        PrintInfoClass.printDividerLine();
     }
 }
