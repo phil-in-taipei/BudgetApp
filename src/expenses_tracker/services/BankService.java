@@ -72,4 +72,21 @@ public class BankService {
             createNewBank(inputData);
         }
     }
+    public static void updateExistingBankInDatabase(
+            String[] inputData,
+            int bankId,
+            Connection dbConnection) throws SQLException {
+        String sql = "UPDATE expense_tracker.bank SET bank_name = ?"
+                + "WHERE bank_id = ? ";
+        try {
+            PreparedStatement ps = dbConnection.prepareStatement(sql);
+            ps.setString(1, inputData[1]);
+            ps.setInt(2, bankId);
+            System.out.println(ps);
+            ps.executeUpdate();
+            ps.close();
+        }  catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

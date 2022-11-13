@@ -177,7 +177,7 @@ public class InterfaceController {
         }
     }
 
-    public static void handleUpdateBankInput(String[] fields, String submenuName, String[] inputData) {
+    public static void handleUpdateBankInput(String[] fields, String submenuName, String[] inputData) throws SQLException {
         Scanner eventOptionScanner = new Scanner(System.in);
         System.out.println("Which bank would you like to update (enter bank id)?");
         String userIdInput = eventOptionScanner.nextLine();
@@ -188,6 +188,7 @@ public class InterfaceController {
             inputData[i] = fieldInput;
         }
         BankModel updatedBank = BankService.updateExistingBank(inputData, updatedIndex);
+        BankService.updateExistingBankInDatabase(inputData, updatedIndex, dbConnection);
         PrintInfoClass.printDividerLine();
         System.out.println("Bank updated: " + updatedBank.toString());
         PrintInfoClass.printDividerLine();
