@@ -55,6 +55,26 @@ public class UserService {
         return updatedUser;
     }
 
+    public static void updateExistingUserInDatabase(
+            String[] inputData,
+            int userID,
+            Connection dbConnection) throws SQLException {
+        String sql = "UPDATE expense_tracker.user SET given_name = ?, surname = ?, email = ?"
+                + "WHERE userid = ? ";
+        try {
+            PreparedStatement ps = dbConnection.prepareStatement(sql);
+            ps.setString(1, inputData[1]);
+            ps.setString(2, inputData[2]);
+            ps.setString(3, inputData[3]);
+            ps.setInt(4, userID);
+            System.out.println(ps);
+            ps.executeUpdate();
+            ps.close();
+        }  catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void populateUserHashmap(Connection dbConnection) throws SQLException {
         statement = dbConnection.createStatement();
         // Result set get the result of the SQL query

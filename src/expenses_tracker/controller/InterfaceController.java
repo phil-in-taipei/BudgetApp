@@ -194,7 +194,7 @@ public class InterfaceController {
         System.out.println("Bank state updated: " + BankState.banksHashMap.get(updatedBank.getId()));
     }
 
-    public static void handleUpdateInput(String[] fields, String submenuName) {
+    public static void handleUpdateInput(String[] fields, String submenuName) throws SQLException {
         String[] inputData = new String[fields.length];
         handleDisplayOfObjects(submenuName);
         System.out.println("The is the obj to be updated: " + submenuName);
@@ -207,7 +207,7 @@ public class InterfaceController {
         }
     }
 
-    public static void handleUpdateUserInput(String[] fields, String submenuName, String[] inputData) {
+    public static void handleUpdateUserInput(String[] fields, String submenuName, String[] inputData) throws SQLException {
         Scanner eventOptionScanner = new Scanner(System.in);
         System.out.println("Which user would you like to update (enter user id)?");
         String userIdInput = eventOptionScanner.nextLine();
@@ -219,8 +219,9 @@ public class InterfaceController {
             inputData[i] = fieldInput;
         }
         UserModel updatedUser = UserService.updateExistingUser(inputData, updatedIndex);
+        UserService.updateExistingUserInDatabase(inputData, updatedIndex, dbConnection);
         PrintInfoClass.printDividerLine();
-        System.out.println("New user created: " + updatedUser.toString());
+        System.out.println("User updated: " + updatedUser.toString());
         PrintInfoClass.printDividerLine();
         System.out.println("In user state: " + UserState.usersHashMap.get(updatedUser.getId()));
     }

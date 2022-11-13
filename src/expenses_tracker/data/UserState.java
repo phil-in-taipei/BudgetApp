@@ -7,9 +7,9 @@ public class UserState {
 
     public static HashMap<Integer, UserModel> usersHashMap = new HashMap();
 
-    public static void main(String[] args) {
-        UserModel newUser =  new UserModel(1, "Joe", "Blow", "email.com");
-        usersHashMap.put(newUser.getId(), newUser);
-    }
+    //public static void main(String[] args) {
+    //    UserModel newUser =  new UserModel(1, "Joe", "Blow", "email.com");
+    //    usersHashMap.put(newUser.getId(), newUser);
+    //}
 
 }
