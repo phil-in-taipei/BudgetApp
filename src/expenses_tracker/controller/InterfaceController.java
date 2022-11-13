@@ -2,8 +2,11 @@ package expenses_tracker.controller;
 
 import java.util.Objects;
 import java.util.Scanner;
+import java.sql.*;
+import java.text.ParseException;
 
 import expenses_tracker.data.BankState;
+import expenses_tracker.data.DatabaseConnection;
 import expenses_tracker.models.UserModel;
 import expenses_tracker.data.UserState;
 import expenses_tracker.models.BankModel;
@@ -13,25 +16,31 @@ import expenses_tracker.services.UserService;
 
 
 public class InterfaceController {
+    public static Connection dbConnection;
     static boolean continueMainLoop = true;
     static boolean continueSubMenuLoop = true;
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+        DatabaseConnection database = new DatabaseConnection();
 
+        dbConnection = database.getConnection();
+        //continueMainLoop = true;
+        //InterfaceController controller = new InterfaceController();
         while(continueMainLoop) {
             PrintInfoClass.printIntro("Budget Tracker Main Menu");
 
-            continueMainLoop = true;
-            InterfaceController controller = new InterfaceController();
+            //continueMainLoop = true;
+            //InterfaceController controller = new InterfaceController();
             PrintInfoClass.printMainMenuOptionPrompt();
-
-            String menuOptionInput = controller.getMenuOption();
+            Scanner eventOptionScanner = new Scanner(System.in);
+            String menuOptionInput = getMenuOption(eventOptionScanner);
             continueMainLoop = handleMainMenuInput(menuOptionInput);
+            System.out.println("Continue Main Loop: " + continueMainLoop);
         }
         PrintInfoClass.printExit("Budget Tracker Main Menu");
+        database.closeDatabaseConnection();
     }
 
-    public static String getMenuOption() {
-        Scanner eventOptionScanner = new Scanner(System.in);
+    public static String getMenuOption(Scanner eventOptionScanner) {
         String loopOption = eventOptionScanner.nextLine();
         PrintInfoClass.printDividerLine();
         System.out.println("You entered this menu option: " + loopOption);
@@ -93,15 +102,19 @@ public class InterfaceController {
         }
     }
 
-    public static boolean handleMainMenuInput(String menuOptionInput) {
+    public static boolean handleMainMenuInput(String menuOptionInput) throws SQLException {
+        System.out.println("Calling Handle Main Menu Method with input: " + menuOptionInput);
         if (Objects.equals(menuOptionInput, "1")) {
+            UserService.populateUserHashmap(dbConnection);
+            continueSubMenuLoop = true;
             while(continueSubMenuLoop) {
-                continueSubMenuLoop = true;
                 System.out.println("User Info Menu");
                 String[] fields = UserModel.getModelFields();
                 PrintInfoClass.printSubMenuOptionPrompt("User");
-                String subMenuOption = getMenuOption();
+                Scanner eventOptionScanner = new Scanner(System.in);
+                String subMenuOption = getMenuOption(eventOptionScanner);
                 continueSubMenuLoop = handleSubMenuInput(subMenuOption, "User", fields);
+                System.out.println("Continue submenu loop: " + continueSubMenuLoop);
             }
             return true;
         } else if (Objects.equals(menuOptionInput, "2")) {
@@ -109,13 +122,16 @@ public class InterfaceController {
             PrintInfoClass.printSubMenuOptionPrompt("Savings");
             return true;
         } else if (Objects.equals(menuOptionInput, "3")) {
+            BankService.populateBankHashmap(dbConnection);
+            continueSubMenuLoop = true;
             while(continueSubMenuLoop) {
-                continueSubMenuLoop = true;
                 System.out.println("Banks Menu");
                 PrintInfoClass.printSubMenuOptionPrompt("Banks");
                 String[] fields = BankModel.getModelFields();
-                String subMenuOption = getMenuOption();
+                Scanner eventOptionScanner = new Scanner(System.in);
+                String subMenuOption = getMenuOption(eventOptionScanner);
                 continueSubMenuLoop = handleSubMenuInput(subMenuOption, "Bank", fields);
+                System.out.println("Continue submenu loop: " + continueSubMenuLoop);
             }
             return true;
         } else if (Objects.equals(menuOptionInput, "4")) {
