@@ -70,4 +70,19 @@ public class UserService {
         }
     }
 
+    public static void updateUserHashmap(Connection dbConnection) throws SQLException {
+        statement = dbConnection.createStatement();
+        // Result set get the result of the SQL query
+        resultSetUsers = statement
+                .executeQuery("select * from expense_tracker.user ORDER BY userid DESC LIMIT 1");
+        while (resultSetUsers.next()) {
+            int id = resultSetUsers.getInt("userid");
+            String givenName = resultSetUsers.getString("given_name");
+            String surname = resultSetUsers.getString("surname");
+            String email = resultSetUsers.getString("email");
+            String[] inputData = { String.valueOf(id), givenName, surname, email };
+            createNewUser(inputData);
+        }
+    }
+
 }

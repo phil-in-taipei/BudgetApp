@@ -81,7 +81,7 @@ public class InterfaceController {
         //UserModel newUser = UserService.createNewUser(inputData);
         UserService.insertUserIntoDatabase(inputData[1], inputData[2], inputData[3], dbConnection);
         PrintInfoClass.printDividerLine();
-        UserService.populateUserHashmap(dbConnection);
+        UserService.updateUserHashmap(dbConnection); //  populateUserHashmap
         //System.out.println("New user created: " + newUser.toString());
         PrintInfoClass.printDividerLine();
         //System.out.println("In user state: " + UserState.usersHashMap.get(newUser.getId()));

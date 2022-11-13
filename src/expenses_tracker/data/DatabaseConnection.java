@@ -13,7 +13,7 @@ public class DatabaseConnection {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             String connectionString = "jdbc:mysql://localhost/expense_tracker?"
-                    + "user=root&password=#####" // replace before running code
+                    + "user=root&password=#######" // replace before running code
                     + "&useSSL=false&allowPublicKeyRetrieval=true";
 
             // Setup the connection with the DB
