@@ -1,4 +1,5 @@
 package expenses_tracker.services;
+import expenses_tracker.data.UserState;
 import expenses_tracker.models.BankModel;
 import expenses_tracker.data.BankState;
 
@@ -16,6 +17,22 @@ public class BankService {
         //BankState.banks.add(newBank);
         BankState.banksHashMap.put(newBank.getId(), newBank);
         return  newBank;
+    }
+
+    public static void deleteBank(int bankId, Connection dbConnection) {
+        String sql = "DELETE FROM expense_tracker.bank " +
+                "WHERE bank_id = ? ";
+        try {
+            PreparedStatement ps = dbConnection.prepareStatement(sql);
+            ps.setInt(1, bankId);
+            BankState.banksHashMap.remove(bankId);
+            System.out.println(ps);
+            ps.executeUpdate();
+            ps.close();
+
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
+        }
     }
 
     public static void insertBankIntoDatabase(

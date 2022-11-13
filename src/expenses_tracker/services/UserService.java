@@ -21,6 +21,22 @@ public class UserService {
         return  newUser;
     }
 
+    public static void deleteUser(int userId, Connection dbConnection) {
+        String sql = "DELETE FROM expense_tracker.user " +
+                "WHERE userid = ? ";
+        try {
+            PreparedStatement ps = dbConnection.prepareStatement(sql);
+            ps.setInt(1, userId);
+            UserState.usersHashMap.remove(userId);
+            System.out.println(ps);
+            ps.executeUpdate();
+            ps.close();
+
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
+        }
+    }
+
     public static void insertUserIntoDatabase(
             String givenName, String surname,
             String email, Connection dbConnection)  throws SQLException {

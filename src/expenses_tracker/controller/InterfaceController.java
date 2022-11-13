@@ -87,6 +87,66 @@ public class InterfaceController {
         PrintInfoClass.printDividerLine();
     }
 
+    public static void handleDeleteBankInput()
+            throws SQLException {
+        Scanner eventOptionScanner = new Scanner(System.in);
+        System.out.println("Which bank would you like to delete (enter bank id)?");
+        PrintInfoClass.printDividerLine();
+        String userIdInput = eventOptionScanner.nextLine();
+        int deleteIndex = Integer.parseInt(userIdInput);
+        PrintInfoClass.printDividerLine();
+        System.out.println("Are you sure that you want to delete "
+                + BankState.banksHashMap.get(deleteIndex) + " ?");
+        PrintInfoClass.printDividerLine();
+        System.out.println("Enter 'y' or 'n'");
+        PrintInfoClass.printDividerLine();
+        String confirmationInput = eventOptionScanner.nextLine();
+        if (confirmationInput.equalsIgnoreCase("y")) {
+            System.out.println("Deleting "
+                    + BankState.banksHashMap.get(deleteIndex));
+            BankService.deleteBank(deleteIndex, dbConnection);
+            BankService.deleteBank(deleteIndex, dbConnection);
+        } else {
+            System.out.println("Deletion cancelled!");
+        }
+    }
+
+    public static void handleDeleteInput(
+            String submenuName) throws SQLException {
+        handleDisplayOfObjects(submenuName);
+        if (submenuName == "User") {
+            handleDeleteUserInput();
+        } else if (submenuName == "Bank") {
+            handleDeleteBankInput();
+        } else {
+            System.out.println("No more options");
+        }
+    }
+
+    public static void handleDeleteUserInput()
+            throws SQLException {
+        Scanner eventOptionScanner = new Scanner(System.in);
+        System.out.println("Which user would you like to delete (enter user id)?");
+        PrintInfoClass.printDividerLine();
+        String userIdInput = eventOptionScanner.nextLine();
+        int deleteIndex = Integer.parseInt(userIdInput);
+        PrintInfoClass.printDividerLine();
+        System.out.println("Are you sure that you want to delete "
+                + UserState.usersHashMap.get(deleteIndex) + " ?");
+        PrintInfoClass.printDividerLine();
+        System.out.println("Enter 'y' or 'n'");
+        PrintInfoClass.printDividerLine();
+        String confirmationInput = eventOptionScanner.nextLine();
+        if (confirmationInput.equalsIgnoreCase("y")) {
+            System.out.println("Deleting "
+                    + UserState.usersHashMap.get(deleteIndex));
+            UserService.deleteUser(deleteIndex, dbConnection);
+            UserService.deleteUser(deleteIndex, dbConnection);
+        } else {
+            System.out.println("Deletion cancelled!");
+        }
+    }
+
     public static void handleDisplayOfObjects(String submenuName) {
         //System.out.println("These are the objs to be displayed: " + submenuName);
         if (submenuName == "User") {
@@ -166,6 +226,7 @@ public class InterfaceController {
             return true;
         } else if (Objects.equals(subMenuOptionInput, "3")) {
             System.out.println("Delete " +submenuName + " Menu");
+            handleDeleteInput(submenuName);
             return true;
         } else if (Objects.equals(subMenuOptionInput, "4")) {
             System.out.println("Display " +submenuName + " Menu");
@@ -177,12 +238,16 @@ public class InterfaceController {
         }
     }
 
-    public static void handleUpdateBankInput(String[] fields, String submenuName, String[] inputData) throws SQLException {
+    public static void handleUpdateBankInput(
+            String[] fields, String submenuName, String[] inputData)
+            throws SQLException {
         Scanner eventOptionScanner = new Scanner(System.in);
         System.out.println("Which bank would you like to update (enter bank id)?");
+        PrintInfoClass.printDividerLine();
         String userIdInput = eventOptionScanner.nextLine();
         int updatedIndex = Integer.parseInt(userIdInput);
         for (int i = 1; i < fields.length; i++) {
+            PrintInfoClass.printDividerLine();
             PrintInfoClass.printCreatePrompt(fields[i], submenuName);
             String fieldInput = eventOptionScanner.nextLine();
             inputData[i] = fieldInput;
@@ -193,12 +258,13 @@ public class InterfaceController {
         System.out.println("Bank updated: " + updatedBank.toString());
         PrintInfoClass.printDividerLine();
         System.out.println("Bank state updated: " + BankState.banksHashMap.get(updatedBank.getId()));
+        PrintInfoClass.printDividerLine();
     }
 
     public static void handleUpdateInput(String[] fields, String submenuName) throws SQLException {
         String[] inputData = new String[fields.length];
         handleDisplayOfObjects(submenuName);
-        System.out.println("The is the obj to be updated: " + submenuName);
+        //System.out.println("The is the obj to be updated: " + submenuName);
         if (submenuName == "User") {
             handleUpdateUserInput(fields, submenuName,inputData);
         } else if (submenuName == "Bank") {
@@ -208,13 +274,16 @@ public class InterfaceController {
         }
     }
 
-    public static void handleUpdateUserInput(String[] fields, String submenuName, String[] inputData) throws SQLException {
+    public static void handleUpdateUserInput(
+            String[] fields, String submenuName, String[] inputData)
+            throws SQLException {
         Scanner eventOptionScanner = new Scanner(System.in);
         System.out.println("Which user would you like to update (enter user id)?");
+        PrintInfoClass.printDividerLine();
         String userIdInput = eventOptionScanner.nextLine();
         int updatedIndex = Integer.parseInt(userIdInput);
-        System.out.println("Which user would you like to update (enter id)?");
         for (int i = 1; i < fields.length; i++) {
+            PrintInfoClass.printDividerLine();
             PrintInfoClass.printCreatePrompt(fields[i], submenuName);
             String fieldInput = eventOptionScanner.nextLine();
             inputData[i] = fieldInput;
