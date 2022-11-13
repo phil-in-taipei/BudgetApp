@@ -23,13 +23,8 @@ public class InterfaceController {
         DatabaseConnection database = new DatabaseConnection();
 
         dbConnection = database.getConnection();
-        //continueMainLoop = true;
-        //InterfaceController controller = new InterfaceController();
         while(continueMainLoop) {
             PrintInfoClass.printIntro("Budget Tracker Main Menu");
-
-            //continueMainLoop = true;
-            //InterfaceController controller = new InterfaceController();
             PrintInfoClass.printMainMenuOptionPrompt();
             Scanner eventOptionScanner = new Scanner(System.in);
             String menuOptionInput = getMenuOption(eventOptionScanner);
@@ -63,7 +58,7 @@ public class InterfaceController {
         PrintInfoClass.printDividerLine();
     }
 
-    public static void handleCreateInput(String[] fields, String submenuName) {
+    public static void handleCreateInput(String[] fields, String submenuName) throws SQLException {
         String[] inputData = new String[fields.length];
         //System.out.println("The is the obj to be created: " + submenuName);
         PrintInfoClass.printDividerLine();
@@ -76,18 +71,20 @@ public class InterfaceController {
         }
     }
 
-    public static void handleCreateUserInput(String[] fields, String submenuName, String[] inputData) {
+    public static void handleCreateUserInput(String[] fields, String submenuName, String[] inputData) throws SQLException {
         Scanner eventOptionScanner = new Scanner(System.in);
-        for (int i = 0; i < fields.length; i++) {
+        for (int i = 1; i < fields.length; i++) {
             PrintInfoClass.printCreatePrompt(fields[i], submenuName);
             String fieldInput = eventOptionScanner.nextLine();
             inputData[i] = fieldInput;
         }
-        UserModel newUser = UserService.createNewUser(inputData);
+        //UserModel newUser = UserService.createNewUser(inputData);
+        UserService.insertUserIntoDatabase(inputData[1], inputData[2], inputData[3], dbConnection);
         PrintInfoClass.printDividerLine();
-        System.out.println("New user created: " + newUser.toString());
+        UserService.populateUserHashmap(dbConnection);
+        //System.out.println("New user created: " + newUser.toString());
         PrintInfoClass.printDividerLine();
-        System.out.println("In user state: " + UserState.usersHashMap.get(newUser.getId()));
+        //System.out.println("In user state: " + UserState.usersHashMap.get(newUser.getId()));
         PrintInfoClass.printDividerLine();
     }
 
@@ -154,7 +151,7 @@ public class InterfaceController {
     public static boolean handleSubMenuInput(
             String subMenuOptionInput, String submenuName,
             String[] fields
-        ) {
+        ) throws SQLException {
         //System.out.println("These are the fields:");
         //for (String field : fields) {
         //    System.out.print(" " + field);

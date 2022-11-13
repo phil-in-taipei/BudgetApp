@@ -21,6 +21,31 @@ public class UserService {
         return  newUser;
     }
 
+    public static void insertUserIntoDatabase(
+            String givenName, String surname,
+            String email, Connection dbConnection)  throws SQLException {
+
+        String sql = "INSERT INTO expense_tracker.user " +
+                "(given_name, surname, email) " +
+                "VALUES (?, ?, ?);";
+
+        try {
+            PreparedStatement ps = dbConnection.prepareStatement(sql);
+
+            ps.setString(1, givenName);
+            ps.setString(2, surname);
+            ps.setString(3, email);
+
+            System.out.println(ps);
+
+            ps.executeUpdate();
+            ps.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static UserModel updateExistingUser(String[] inputData, int userId) { //
         UserModel updatedUser = UserState.usersHashMap.get(userId);
         updatedUser.setGivenName(inputData[1]);
