@@ -1,16 +1,16 @@
 package expenses_tracker.controller;
 
-import expenses_tracker.data.BankState;
-import expenses_tracker.models.BankModel;
-import expenses_tracker.services.BankService;
+import expenses_tracker.data.UserState;
+import expenses_tracker.models.UserModel;
+import expenses_tracker.services.UserService;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 import java.sql.*;
 
-public class BankInterface {
 
-    public static void handleCreateBankInput(
+public class UserInput {
+    public static void handleCreateUserInput(
             String[] fields, String submenuName, String[] inputData, Connection dbConnection)
             throws SQLException {
         Scanner eventOptionScanner = new Scanner(System.in);
@@ -19,40 +19,42 @@ public class BankInterface {
             String fieldInput = eventOptionScanner.nextLine();
             inputData[i] = fieldInput;
         }
-        BankService.insertBankIntoDatabase(inputData[1], dbConnection);
-        BankService.updateBankHashmap(dbConnection);
+        UserService.insertUserIntoDatabase(inputData[1], inputData[2],
+                inputData[3], dbConnection);
+        //PrintInfoClass.printDividerLine();
+        UserService.updateUserHashmap(dbConnection);
         PrintInfoClass.printDividerLine();
     }
 
-    public static void handleDeleteBankInput(Connection dbConnection)
+    public static void handleDeleteUserInput(Connection dbConnection)
             throws SQLException {
         Scanner eventOptionScanner = new Scanner(System.in);
-        System.out.println("Which bank would you like to delete (enter bank id)?");
+        System.out.println("Which user would you like to delete (enter user id)?");
         PrintInfoClass.printDividerLine();
         String userIdInput = eventOptionScanner.nextLine();
         int deleteIndex = Integer.parseInt(userIdInput);
         PrintInfoClass.printDividerLine();
         System.out.println("Are you sure that you want to delete "
-                + BankState.banksHashMap.get(deleteIndex) + " ?");
+                + UserState.usersHashMap.get(deleteIndex) + " ?");
         PrintInfoClass.printDividerLine();
         System.out.println("Enter 'y' or 'n'");
         PrintInfoClass.printDividerLine();
         String confirmationInput = eventOptionScanner.nextLine();
         if (confirmationInput.equalsIgnoreCase("y")) {
             System.out.println("Deleting "
-                    + BankState.banksHashMap.get(deleteIndex));
-            BankService.deleteBank(deleteIndex, dbConnection);
-            BankService.deleteBank(deleteIndex, dbConnection);
+                    + UserState.usersHashMap.get(deleteIndex));
+            UserService.deleteUser(deleteIndex, dbConnection);
+            UserService.deleteUser(deleteIndex, dbConnection);
         } else {
             System.out.println("Deletion cancelled!");
         }
     }
 
-    public static void handleUpdateBankInput(
+    public static void handleUpdateUserInput(
             String[] fields, String submenuName, String[] inputData, Connection dbConnection)
             throws SQLException {
         Scanner eventOptionScanner = new Scanner(System.in);
-        System.out.println("Which bank would you like to update (enter bank id)?");
+        System.out.println("Which user would you like to update (enter user id)?");
         PrintInfoClass.printDividerLine();
         String userIdInput = eventOptionScanner.nextLine();
         int updatedIndex = Integer.parseInt(userIdInput);
@@ -62,12 +64,11 @@ public class BankInterface {
             String fieldInput = eventOptionScanner.nextLine();
             inputData[i] = fieldInput;
         }
-        BankModel updatedBank = BankService.updateExistingBank(inputData, updatedIndex);
-        BankService.updateExistingBankInDatabase(inputData, updatedIndex, dbConnection);
+        UserModel updatedUser = UserService.updateExistingUser(inputData, updatedIndex);
+        UserService.updateExistingUserInDatabase(inputData, updatedIndex, dbConnection);
         PrintInfoClass.printDividerLine();
-        System.out.println("Bank updated: " + updatedBank.toString());
+        System.out.println("User updated: " + updatedUser.toString());
         PrintInfoClass.printDividerLine();
-        System.out.println("Bank state updated: " + BankState.banksHashMap.get(updatedBank.getId()));
-        PrintInfoClass.printDividerLine();
+        System.out.println("In user state: " + UserState.usersHashMap.get(updatedUser.getId()));
     }
 }

@@ -3,7 +3,6 @@ package expenses_tracker.controller;
 import java.util.Objects;
 import java.util.Scanner;
 import java.sql.*;
-import java.text.ParseException;
 
 import expenses_tracker.data.BankState;
 import expenses_tracker.data.DatabaseConnection;
@@ -15,7 +14,7 @@ import expenses_tracker.services.UserService;
 
 
 
-public class InterfaceController {
+public class InputController {
     public static Connection dbConnection;
     static boolean continueMainLoop = true;
     static boolean continueSubMenuLoop = true;
@@ -49,9 +48,9 @@ public class InterfaceController {
         //System.out.println("The is the obj to be created: " + submenuName);
         PrintInfoClass.printDividerLine();
         if (submenuName == "User") {
-            UserInterface.handleCreateUserInput(fields, submenuName, inputData, dbConnection);
+            UserInput.handleCreateUserInput(fields, submenuName, inputData, dbConnection);
         } else if (submenuName == "Bank") {
-            BankInterface.handleCreateBankInput(fields, submenuName, inputData, dbConnection);
+            BankInput.handleCreateBankInput(fields, submenuName, inputData, dbConnection);
         } else {
             System.out.println("No more options");
         }
@@ -61,9 +60,9 @@ public class InterfaceController {
             String submenuName) throws SQLException {
         handleDisplayOfObjects(submenuName);
         if (submenuName == "User") {
-            UserInterface.handleDeleteUserInput(dbConnection);
+            UserInput.handleDeleteUserInput(dbConnection);
         } else if (submenuName == "Bank") {
-            BankInterface.handleDeleteBankInput(dbConnection);
+            BankInput.handleDeleteBankInput(dbConnection);
         } else {
             System.out.println("No more options");
         }
@@ -165,9 +164,9 @@ public class InterfaceController {
         handleDisplayOfObjects(submenuName);
         //System.out.println("The is the obj to be updated: " + submenuName);
         if (submenuName == "User") {
-            UserInterface.handleUpdateUserInput(fields, submenuName,inputData, dbConnection);
+            UserInput.handleUpdateUserInput(fields, submenuName,inputData, dbConnection);
         } else if (submenuName == "Bank") {
-            BankInterface.handleUpdateBankInput(fields, submenuName, inputData, dbConnection);
+            BankInput.handleUpdateBankInput(fields, submenuName, inputData, dbConnection);
         } else {
             System.out.println("No more options");
         }
