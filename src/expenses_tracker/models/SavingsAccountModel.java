@@ -26,6 +26,10 @@ public class SavingsAccountModel {
         this.accountBalance = BigDecimal.valueOf(00.00);
     }
 
+    public static String[] getModelFields () {
+        return new String[]{"id", "userId", "bankId" };
+    }
+
 
 
 

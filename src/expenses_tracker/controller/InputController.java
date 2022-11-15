@@ -6,6 +6,7 @@ import java.sql.*;
 
 import expenses_tracker.data.BankState;
 import expenses_tracker.data.DatabaseConnection;
+import expenses_tracker.models.SavingsAccountModel;
 import expenses_tracker.models.UserModel;
 import expenses_tracker.data.UserState;
 import expenses_tracker.models.BankModel;
@@ -47,8 +48,11 @@ public class InputController {
         String[] inputData = new String[fields.length];
         //System.out.println("The is the obj to be created: " + submenuName);
         PrintInfoClass.printDividerLine();
-        if (submenuName == "User") {
+        if (submenuName == "User") { // Savings Accounts
             UserInput.handleCreateUserInput(fields, submenuName, inputData, dbConnection);
+        } else if (submenuName == "Savings Accounts") {
+            System.out.println("Call handle create accounts ....");
+            //BankInput.handleCreateBankInput(fields, submenuName, inputData, dbConnection);
         } else if (submenuName == "Bank") {
             BankInput.handleCreateBankInput(fields, submenuName, inputData, dbConnection);
         } else {
@@ -59,8 +63,12 @@ public class InputController {
     public static void handleDeleteInput(
             String submenuName) throws SQLException {
         handleDisplayOfObjects(submenuName);
+        System.out.println("This is the submenu name: " + submenuName);
         if (submenuName == "User") {
             UserInput.handleDeleteUserInput(dbConnection);
+        } else if (submenuName == "Savings Accounts") {
+            System.out.println("Call handle deletion of accounts ....");
+            //BankInput.handleCreateBankInput(fields, submenuName, inputData, dbConnection);
         } else if (submenuName == "Bank") {
             BankInput.handleDeleteBankInput(dbConnection);
         } else {
@@ -72,7 +80,10 @@ public class InputController {
         //System.out.println("These are the objs to be displayed: " + submenuName);
         if (submenuName == "User") {
             PrintInfoClass.printUserObjectsInState(UserState.usersHashMap);
-        } else if (submenuName == "Bank") {
+        } else if (submenuName == "Savings Accounts") {
+            System.out.println("Call handle display of savings accounts ....");
+            //BankInput.handleCreateBankInput(fields, submenuName, inputData, dbConnection);
+        }  else if (submenuName == "Bank") {
             PrintInfoClass.printBankObjectsInState(BankState.banksHashMap);
         } else {
             System.out.println("No option");
@@ -97,7 +108,20 @@ public class InputController {
         } else if (Objects.equals(menuOptionInput, "2")) {
             System.out.println("Savings Accounts Menu");
             UserModel currentUser = UserInput.handleGetUserInput(dbConnection);
+            if (currentUser == null) {
+                System.out.println("The user does not exist! Check Users for more details");
+                return true;
+            }
             System.out.println("You entered this user option: " + currentUser);
+            while(continueSubMenuLoop) {
+                System.out.println("Savings Accounts Menu");
+                PrintInfoClass.printSubMenuOptionPrompt("Savings Accounts");
+                String[] fields = SavingsAccountModel.getModelFields();
+                Scanner eventOptionScanner = new Scanner(System.in);
+                String subMenuOption = getMenuOption(eventOptionScanner);
+                continueSubMenuLoop = handleSubMenuInput(subMenuOption, "Savings Accounts", fields);
+                //System.out.println("Continue submenu loop: " + continueSubMenuLoop);
+            }
             PrintInfoClass.printSubMenuOptionPrompt("Savings Accounts");
             return true;
         } else if (Objects.equals(menuOptionInput, "3")) {
@@ -175,6 +199,9 @@ public class InputController {
         //System.out.println("The is the obj to be updated: " + submenuName);
         if (submenuName == "User") {
             UserInput.handleUpdateUserInput(fields, submenuName,inputData, dbConnection);
+        } else if (submenuName == "Savings Accounts") {
+            System.out.println("Call handle saving accounts update ....");
+            //BankInput.handleCreateBankInput(fields, submenuName, inputData, dbConnection);
         } else if (submenuName == "Bank") {
             BankInput.handleUpdateBankInput(fields, submenuName, inputData, dbConnection);
         } else {
