@@ -68,12 +68,14 @@ public class PrintInfoClass {
         printDividerLine();
         System.out.println(
                         "1) User Information"
-                        + "\n2) Savings"
+                        + "\n2) Savings Accounts"
                         + "\n3) Banks"
-                        + "\n4) Expenses"
-                        + "\n5) Financial Goal"
-                        + "\n6) Reports"
-                        + "\n7) Exit"
+                        + "\n4) Cash Withdraws"
+                        + "\n5) Deposits"
+                        + "\n6) Expenses"
+                        + "\n7) Financial Goal"
+                        + "\n8) Reports"
+                        + "\n9) Exit"
         );
         printDividerLine();
     }

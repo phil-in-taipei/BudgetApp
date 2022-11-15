@@ -95,8 +95,8 @@ public class InputController {
             }
             return true;
         } else if (Objects.equals(menuOptionInput, "2")) {
-            System.out.println("Savings Menu");
-            PrintInfoClass.printSubMenuOptionPrompt("Savings");
+            System.out.println("Savings Accounts Menu");
+            PrintInfoClass.printSubMenuOptionPrompt("Savings Accounts");
             return true;
         } else if (Objects.equals(menuOptionInput, "3")) {
             BankService.populateBankHashmap(dbConnection);
@@ -112,14 +112,22 @@ public class InputController {
             }
             return true;
         } else if (Objects.equals(menuOptionInput, "4")) {
+            System.out.println("Cash Withdraws Menu");
+            PrintInfoClass.printSubMenuOptionPrompt("Cash Withdraws");
+            return true;
+        } else if (Objects.equals(menuOptionInput, "5")) {
+            System.out.println("Deposits Menu");
+            PrintInfoClass.printSubMenuOptionPrompt("Deposits");
+            return true;
+        }else if (Objects.equals(menuOptionInput, "6")) {
             System.out.println("Expenses Menu");
             PrintInfoClass.printSubMenuOptionPrompt("Expenses");
             return true;
-        } else if (Objects.equals(menuOptionInput, "5")) {
+        } else if (Objects.equals(menuOptionInput, "7")) {
             System.out.println("Financial Goal Menu");
             PrintInfoClass.printSubMenuOptionPrompt("Financial Goals");
             return true;
-        } else if (Objects.equals(menuOptionInput, "6")) {
+        } else if (Objects.equals(menuOptionInput, "8")) {
             System.out.println("Reports Menu");
             return true;
         }else {
