@@ -10,6 +10,16 @@ import java.sql.*;
 
 
 public class UserInput {
+
+    public static UserModel handleGetUserInput(Connection dbConnection) throws SQLException {
+        UserService.populateUserHashmap(dbConnection);
+        PrintInfoClass.printDividerLine();
+        System.out.println("What is your user ID?");
+        Scanner userOptionScanner = new Scanner(System.in);
+        String userOption = userOptionScanner.nextLine();
+        PrintInfoClass.printDividerLine();
+        return UserState.usersHashMap.get(Integer.parseInt(userOption));
+    }
     public static void handleCreateUserInput(
             String[] fields, String submenuName, String[] inputData, Connection dbConnection)
             throws SQLException {

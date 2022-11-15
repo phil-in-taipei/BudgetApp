@@ -96,6 +96,8 @@ public class InputController {
             return true;
         } else if (Objects.equals(menuOptionInput, "2")) {
             System.out.println("Savings Accounts Menu");
+            UserModel currentUser = UserInput.handleGetUserInput(dbConnection);
+            System.out.println("You entered this user option: " + currentUser);
             PrintInfoClass.printSubMenuOptionPrompt("Savings Accounts");
             return true;
         } else if (Objects.equals(menuOptionInput, "3")) {
