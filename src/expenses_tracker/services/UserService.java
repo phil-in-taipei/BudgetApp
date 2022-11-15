@@ -11,14 +11,14 @@ public class UserService {
 
     static Statement statement = null;
     static ResultSet resultSetUsers = null;
-    public static UserModel createNewUser(String[] inputData) {
+    public static void createNewUser(String[] inputData) { //UserModel
         UserModel newUser = new UserModel(
                 Integer.parseInt(inputData[0]),
                 inputData[1], inputData[2],
                 inputData[3]
         );
         UserState.usersHashMap.put(newUser.getId(), newUser);
-        return  newUser;
+       // return  newUser;
     }
 
     public static void deleteUser(int userId, Connection dbConnection) {

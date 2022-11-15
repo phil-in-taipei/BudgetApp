@@ -1,6 +1,7 @@
 package expenses_tracker.controller;
 
 import expenses_tracker.models.BankModel;
+import expenses_tracker.models.SavingsAccountModel;
 import expenses_tracker.models.UserModel;
 
 import java.util.HashMap;
@@ -101,8 +102,20 @@ public class PrintInfoClass {
         Iterator iterator = entries.iterator();
         while(iterator.hasNext()) {
             Map.Entry userObj = (Map.Entry)iterator.next();
-            System.out.println("The key (user id) is: "+ userObj.getKey()
-                    + " and the value (user obj) is: " + userObj.getValue());
+            System.out.println("The key (id) is: "+ userObj.getKey()
+                    + " and the value is: " + userObj.getValue());
+        }
+        PrintInfoClass.printDividerLine();
+    }
+
+    public static void printSavingsAccountObjectsInState(
+            HashMap<Integer, SavingsAccountModel> savingsAccountModelHashMap) {
+        PrintInfoClass.printDividerLine();
+        Set entries = savingsAccountModelHashMap.entrySet();
+        Iterator iterator = entries.iterator();
+        while(iterator.hasNext()) {
+            Map.Entry userObj = (Map.Entry)iterator.next();
+            System.out.println(userObj.getValue());
         }
         PrintInfoClass.printDividerLine();
     }

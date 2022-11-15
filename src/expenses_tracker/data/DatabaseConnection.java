@@ -4,19 +4,15 @@ import java.sql.*;
 
 public class DatabaseConnection {
     Connection connection = null;
-    //Statement statement = null;
 
     public DatabaseConnection() {
-        //this.connection = connection;
         try {
-            // This will load the MySQL driver, each DB has its own driver
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             String connectionString = "jdbc:mysql://localhost/expense_tracker?"
                     + "user=root&password=#####" // replace before running code
                     + "&useSSL=false&allowPublicKeyRetrieval=true";
 
-            // Setup the connection with the DB
             connection = DriverManager
                     .getConnection(connectionString);
 

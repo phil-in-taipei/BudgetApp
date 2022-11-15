@@ -6,11 +6,13 @@ import java.sql.*;
 
 import expenses_tracker.data.BankState;
 import expenses_tracker.data.DatabaseConnection;
+import expenses_tracker.data.SavingsAccountState;
 import expenses_tracker.models.SavingsAccountModel;
 import expenses_tracker.models.UserModel;
 import expenses_tracker.data.UserState;
 import expenses_tracker.models.BankModel;
 import expenses_tracker.services.BankService;
+import expenses_tracker.services.SavingsAccountService;
 import expenses_tracker.services.UserService;
 
 
@@ -52,6 +54,7 @@ public class InputController {
             UserInput.handleCreateUserInput(fields, submenuName, inputData, dbConnection);
         } else if (submenuName == "Savings Accounts") {
             System.out.println("Call handle create accounts ....");
+            SavingsAccountInput.handleCreateAccountInput(fields, submenuName, inputData, dbConnection);
             //BankInput.handleCreateBankInput(fields, submenuName, inputData, dbConnection);
         } else if (submenuName == "Bank") {
             BankInput.handleCreateBankInput(fields, submenuName, inputData, dbConnection);
@@ -81,9 +84,10 @@ public class InputController {
         if (submenuName == "User") {
             PrintInfoClass.printUserObjectsInState(UserState.usersHashMap);
         } else if (submenuName == "Savings Accounts") {
-            System.out.println("Call handle display of savings accounts ....");
-            //BankInput.handleCreateBankInput(fields, submenuName, inputData, dbConnection);
-        }  else if (submenuName == "Bank") {
+            PrintInfoClass.printSavingsAccountObjectsInState(
+                    SavingsAccountState.savingsAccountHashMap
+            );
+        } else if (submenuName == "Bank") {
             PrintInfoClass.printBankObjectsInState(BankState.banksHashMap);
         } else {
             System.out.println("No option");
@@ -106,13 +110,9 @@ public class InputController {
             }
             return true;
         } else if (Objects.equals(menuOptionInput, "2")) {
-            System.out.println("Savings Accounts Menu");
-            UserModel currentUser = UserInput.handleGetUserInput(dbConnection);
-            if (currentUser == null) {
-                System.out.println("The user does not exist! Check Users for more details");
-                return true;
-            }
-            System.out.println("You entered this user option: " + currentUser);
+            BankService.populateBankHashmap(dbConnection);
+            SavingsAccountService.populateAccountsHashmap(dbConnection);
+            UserService.populateUserHashmap(dbConnection);
             while(continueSubMenuLoop) {
                 System.out.println("Savings Accounts Menu");
                 PrintInfoClass.printSubMenuOptionPrompt("Savings Accounts");
