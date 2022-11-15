@@ -1,0 +1,17 @@
+Get all accounts for bank:
+SELECT *
+FROM expense_tracker.account
+WHERE expense_tracker.account.bankId = 2;
+
+Get all accounts for user:
+SELECT *
+FROM expense_tracker.account
+WHERE expense_tracker.account.userId = 1;
+
+Get all accounts with user and bank id:
+SELECT *
+FROM expense_tracker.account
+WHERE expense_tracker.account.userId = 4
+AND expense_tracker.account.bankId = 2;
+
+
