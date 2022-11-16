@@ -31,6 +31,30 @@ public class SavingsAccountModel {
                 "\n  }";
     }
 
+    public int getBankId() {
+        return bankId;
+    }
+
+    public void setBankId(int bankId) {
+        this.bankId = bankId;
+    }
+
+    public BigDecimal getAccountBalance() {
+        return accountBalance;
+    }
+
+    public void setAccountBalance(BigDecimal accountBalance) {
+        this.accountBalance = accountBalance;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     public SavingsAccountModel(int id, int userId, int bankId, BigDecimal balance) {
         this.id = id;
         this.userId = userId;

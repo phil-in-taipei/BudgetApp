@@ -193,15 +193,16 @@ public class InputController {
         }
     }
 
-    public static void handleUpdateInput(String[] fields, String submenuName) throws SQLException {
+    public static void handleUpdateInput(
+            String[] fields, String submenuName) throws SQLException {
         String[] inputData = new String[fields.length];
         handleDisplayOfObjects(submenuName);
         //System.out.println("The is the obj to be updated: " + submenuName);
         if (submenuName == "User") {
             UserInput.handleUpdateUserInput(fields, submenuName,inputData, dbConnection);
         } else if (submenuName == "Savings Accounts") {
-            System.out.println("Call handle saving accounts update ....");
-            //BankInput.handleCreateBankInput(fields, submenuName, inputData, dbConnection);
+            //System.out.println("Call handle saving accounts update ....");
+            SavingsAccountInput.handleUpdateAccountInput(fields, submenuName, inputData, dbConnection);
         } else if (submenuName == "Bank") {
             BankInput.handleUpdateBankInput(fields, submenuName, inputData, dbConnection);
         } else {

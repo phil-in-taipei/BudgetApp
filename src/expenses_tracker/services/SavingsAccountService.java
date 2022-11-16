@@ -71,4 +71,32 @@ public class SavingsAccountService {
         }
     }
 
+    public static void updateAccountInDatabase(
+            String[] inputData,
+            int userID,
+            Connection dbConnection) throws SQLException { // balance = ?
+        String sql = "UPDATE expense_tracker.account SET userId = ?, bankId = ? "
+                + "WHERE idaccount = ? ";
+        try {
+            PreparedStatement ps = dbConnection.prepareStatement(sql);
+            ps.setInt(1, Integer.parseInt(inputData[1]));
+            ps.setInt(2, Integer.parseInt(inputData[2]));
+            //ps.setString(3, inputData[3]);
+            ps.setInt(3, userID);
+            System.out.println(ps);
+            ps.executeUpdate();
+            ps.close();
+        }  catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static SavingsAccountModel updateAccountsStateObject(String[] inputData, int accountId) { //
+        SavingsAccountModel updatedAccount = SavingsAccountState.savingsAccountHashMap.get(accountId);
+        updatedAccount.setUserId(Integer.parseInt(inputData[1]));
+        updatedAccount.setBankId(Integer.parseInt(inputData[2]));
+        SavingsAccountState.savingsAccountHashMap.replace(accountId, updatedAccount);
+        return updatedAccount;
+    }
+
 }

@@ -1,11 +1,14 @@
 package expenses_tracker.controller;
 
 import expenses_tracker.data.BankState;
+import expenses_tracker.data.SavingsAccountState;
 import expenses_tracker.data.UserState;
 import expenses_tracker.models.BankModel;
+import expenses_tracker.models.SavingsAccountModel;
 import expenses_tracker.models.UserModel;
 import expenses_tracker.services.BankService;
 import expenses_tracker.services.SavingsAccountService;
+import expenses_tracker.services.UserService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -19,6 +22,7 @@ public class SavingsAccountInput {
             throws SQLException {
         Scanner eventOptionScanner = new Scanner(System.in);
         for (int i = 1; i < fields.length; i++) {
+            PrintInfoClass.printDividerLine();
             if (Objects.equals(fields[i], "bankId")) {
                 System.out.println("These are the bank selections");
                 PrintInfoClass.printBankObjectsInState(BankState.banksHashMap);
@@ -38,6 +42,42 @@ public class SavingsAccountInput {
                 Integer.parseInt(inputData[2]), dbConnection);
         SavingsAccountService.updateAccountsHashmap(dbConnection);
         PrintInfoClass.printDividerLine();
+    }
+
+    public static void handleUpdateAccountInput(
+            String[] fields, String submenuName, String[] inputData, Connection dbConnection)
+            throws SQLException {
+        Scanner eventOptionScanner = new Scanner(System.in);
+        System.out.println("Which savings account would you like to update (enter account id)?");
+        PrintInfoClass.printDividerLine();
+        String userIdInput = eventOptionScanner.nextLine();
+        int updatedIndex = Integer.parseInt(userIdInput);
+        for (int i = 1; i < fields.length; i++) {
+            PrintInfoClass.printDividerLine();
+            if (Objects.equals(fields[i], "bankId")) {
+                System.out.println("These are the bank selections");
+                PrintInfoClass.printBankObjectsInState(BankState.banksHashMap);
+            }
+            PrintInfoClass.printCreatePrompt(fields[i], submenuName);
+            String fieldInput = eventOptionScanner.nextLine();
+            inputData[i] = fieldInput;
+        }
+        UserModel userObj = UserState.usersHashMap.get(Integer.parseInt(inputData[1]));
+        BankModel bankObj = BankState.banksHashMap.get(Integer.parseInt(inputData[2]));
+        System.out.println(fields[1] + ": "
+                + userObj
+                + " \n" + fields[2] + ": "
+                + bankObj);
+        SavingsAccountModel updatedAccount = SavingsAccountService.updateAccountsStateObject(
+                inputData, updatedIndex);
+        SavingsAccountService.updateAccountInDatabase(inputData, updatedIndex, dbConnection);
+        PrintInfoClass.printDividerLine();
+        System.out.println("Account updated: " + updatedAccount.toString());
+        PrintInfoClass.printDividerLine();
+        System.out.println(
+                "In user state: "
+                + SavingsAccountState.savingsAccountHashMap.get(
+                        updatedAccount.getId()));
     }
 
 }
