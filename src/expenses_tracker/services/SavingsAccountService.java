@@ -88,10 +88,22 @@ public class SavingsAccountService {
         }
     }
 
-    public static SavingsAccountModel updateAccountBalance(Double amountModified, int accountId) {
+    public static SavingsAccountModel updateAccountBalanceAdd(
+            Double amountModified, int accountId
+    ) {
         SavingsAccountModel updatedAccount = SavingsAccountState.savingsAccountHashMap.get(accountId);
         updatedAccount.setAccountBalance(
                 updatedAccount.getAccountBalance().add(BigDecimal.valueOf(amountModified))
+        );
+        return updatedAccount;
+    }
+
+    public static SavingsAccountModel updateAccountBalanceSubtract(
+            Double amountModified, int accountId
+    ) {
+        SavingsAccountModel updatedAccount = SavingsAccountState.savingsAccountHashMap.get(accountId);
+        updatedAccount.setAccountBalance(
+                updatedAccount.getAccountBalance().subtract(BigDecimal.valueOf(amountModified))
         );
         return updatedAccount;
     }

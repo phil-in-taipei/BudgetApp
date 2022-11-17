@@ -1,19 +1,13 @@
 package expenses_tracker.controller;
 
+import java.lang.reflect.WildcardType;
 import java.util.Objects;
 import java.util.Scanner;
 import java.sql.*;
 
 import expenses_tracker.data.*;
-import expenses_tracker.models.DepositModel;
-import expenses_tracker.models.SavingsAccountModel;
-import expenses_tracker.models.UserModel;
-import expenses_tracker.models.BankModel;
-import expenses_tracker.services.BankService;
-import expenses_tracker.services.DepositService;
-import expenses_tracker.services.SavingsAccountService;
-import expenses_tracker.services.UserService;
-
+import expenses_tracker.models.*;
+import expenses_tracker.services.*;
 
 
 public class InputController {
@@ -52,11 +46,15 @@ public class InputController {
         if (submenuName == "User") { // Savings Accounts
             UserInput.handleCreateUserInput(fields, submenuName, inputData, dbConnection);
         } else if (submenuName == "Savings Accounts") {
-            System.out.println("Call handle create accounts ....");
+            //System.out.println("Call handle create accounts ....");
             SavingsAccountInput.handleCreateAccountInput(fields, submenuName, inputData, dbConnection);
         } else if (submenuName == "Deposits") {
-            System.out.println("Call handle create deposit ....");
+            //System.out.println("Call handle create deposit ....");
             DepositsInput.handleCreateDepositInput(fields, submenuName, inputData, dbConnection);
+            //SavingsAccountInput.handleCreateAccountInput(fields, submenuName, inputData, dbConnection);
+        } else if (submenuName == "Withdraws") {
+            //System.out.println("Call handle create deposit ....");
+            WithdrawsInput.handleCreateWithdrawInput(fields, submenuName, inputData, dbConnection);
             //SavingsAccountInput.handleCreateAccountInput(fields, submenuName, inputData, dbConnection);
         } else if (submenuName == "Bank") {
             BankInput.handleCreateBankInput(fields, submenuName, inputData, dbConnection);
@@ -72,7 +70,7 @@ public class InputController {
         if (submenuName == "User") {
             UserInput.handleDeleteUserInput(dbConnection);
         } else if (submenuName == "Savings Accounts") {
-            System.out.println("Call handle deletion of accounts ....");
+            //System.out.println("Call handle deletion of accounts ....");
             SavingsAccountInput.handleDeleteAccountInput(dbConnection);
         } else if (submenuName == "Bank") {
             BankInput.handleDeleteBankInput(dbConnection);
@@ -93,6 +91,8 @@ public class InputController {
             PrintInfoClass.printBankObjectsInState(BankState.banksHashMap);
         } else if (submenuName == "Deposits") {
             PrintInfoClass.printDepositObjectsInState(DepositState.depositHashMap);
+        } else if (submenuName == "Withdraws") {
+            PrintInfoClass.printWithdrawObjectsInState(WithdrawState.withdrawHashMap);
         } else {
             System.out.println("No option");
         }
@@ -143,8 +143,19 @@ public class InputController {
             }
             return true;
         } else if (Objects.equals(menuOptionInput, "4")) {
-            System.out.println("Cash Withdraws Menu");
-            PrintInfoClass.printSubMenuOptionPrompt("Cash Withdraws");
+            BankService.populateBankHashmap(dbConnection);
+            SavingsAccountService.populateAccountsHashmap(dbConnection);
+            UserService.populateUserHashmap(dbConnection);
+            WithdrawService.populateWithdrawHashmap(dbConnection);
+            continueSubMenuLoop = true;
+            while(continueSubMenuLoop) {
+                System.out.println("Withdraws Menu");
+                PrintInfoClass.printSubMenuOptionPrompt("Withdraws");
+                String[] fields = WithdrawModel.getModelFields();
+                Scanner eventOptionScanner = new Scanner(System.in);
+                String subMenuOption = getMenuOption(eventOptionScanner);
+                continueSubMenuLoop = handleSubMenuInput(subMenuOption, "Withdraws", fields);
+            }
             return true;
         } else if (Objects.equals(menuOptionInput, "5")) {
             BankService.populateBankHashmap(dbConnection);
@@ -167,8 +178,8 @@ public class InputController {
             PrintInfoClass.printSubMenuOptionPrompt("Expenses");
             return true;
         } else if (Objects.equals(menuOptionInput, "7")) {
-            System.out.println("Financial Goal Menu");
-            PrintInfoClass.printSubMenuOptionPrompt("Financial Goals");
+            System.out.println("Income Source Menu");
+            PrintInfoClass.printSubMenuOptionPrompt("Income Source");
             return true;
         } else if (Objects.equals(menuOptionInput, "8")) {
             System.out.println("Reports Menu");

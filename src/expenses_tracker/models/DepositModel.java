@@ -18,10 +18,10 @@ public class DepositModel {
     @Override
     public String toString() {
         return "DepositModel{" +
-                "id=" + id +
-                ", accountId=" + accountId +
-                ", depositAmount=" + depositAmount +
-                ", time=" + time +
+                "ID=" + id +
+                ", Account Id=" + accountId +
+                ", Deposit Amount=" + depositAmount +
+                ", Time=" + time +
                 '}';
     }
 

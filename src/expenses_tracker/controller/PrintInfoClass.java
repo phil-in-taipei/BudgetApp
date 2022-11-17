@@ -1,9 +1,6 @@
 package expenses_tracker.controller;
 
-import expenses_tracker.models.BankModel;
-import expenses_tracker.models.DepositModel;
-import expenses_tracker.models.SavingsAccountModel;
-import expenses_tracker.models.UserModel;
+import expenses_tracker.models.*;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -84,10 +81,10 @@ public class PrintInfoClass {
                         "1) User Information"
                         + "\n2) Savings Accounts"
                         + "\n3) Banks"
-                        + "\n4) Cash Withdraws"
+                        + "\n4) Withdraws"
                         + "\n5) Deposits"
                         + "\n6) Expenses"
-                        + "\n7) Financial Goal"
+                        + "\n7) Income Sources"
                         + "\n8) Reports"
                         + "\n9) Exit"
         );
@@ -125,6 +122,18 @@ public class PrintInfoClass {
             HashMap<Integer, SavingsAccountModel> savingsAccountModelHashMap) {
         PrintInfoClass.printDividerLine();
         Set entries = savingsAccountModelHashMap.entrySet();
+        Iterator iterator = entries.iterator();
+        while(iterator.hasNext()) {
+            Map.Entry userObj = (Map.Entry)iterator.next();
+            System.out.println(userObj.getValue());
+        }
+        PrintInfoClass.printDividerLine();
+    }
+
+    public static void printWithdrawObjectsInState(
+            HashMap<Integer, WithdrawModel> withdrawModelHashMap) {
+        PrintInfoClass.printDividerLine();
+        Set entries = withdrawModelHashMap.entrySet();
         Iterator iterator = entries.iterator();
         while(iterator.hasNext()) {
             Map.Entry userObj = (Map.Entry)iterator.next();
