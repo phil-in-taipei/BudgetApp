@@ -12,25 +12,28 @@ public class DepositService {
     static Statement statement = null;
     static ResultSet resultSetUsers = null;
 
-    public static void createNewDeposit(int id, int accountId, BigDecimal amount, Timestamp time) {
+    public static void createNewDeposit(
+            int id, BigDecimal amount,
+            Timestamp time, int incomeSourceId, int accountId) {
         DepositModel newDeposit = new DepositModel(
-                id, accountId, amount, time
+                id, amount, time, incomeSourceId, accountId
         );
         DepositState.depositHashMap.put(newDeposit.getId(), newDeposit);
     }
     public static void insertNewDepositIntoDatabase(
-            int accountId, double depositAmount,
+            double depositAmount, int incomeSourceId, int accountId,
             Connection dbConnection)  throws SQLException {
 
         String sql = "INSERT INTO expense_tracker.deposit " +
-                "(accountId, amount) " +
-                "VALUES (?, ?);";
+                "(amount, incomeSourceId, accountId) " +
+                "VALUES (?, ?, ?);";
 
         try {
             PreparedStatement ps = dbConnection.prepareStatement(sql);
 
-            ps.setInt(1, accountId);
-            ps.setDouble(2, depositAmount);
+            ps.setDouble(1, depositAmount);
+            ps.setInt(2, incomeSourceId);
+            ps.setInt(3, accountId);
 
             System.out.println(ps);
 
@@ -48,10 +51,11 @@ public class DepositService {
                 .executeQuery("select * from expense_tracker.deposit");
         while (resultSetUsers.next()) {
             int id = resultSetUsers.getInt("iddeposit");
+            int incomeSourceId = resultSetUsers.getInt("incomeSourceId");
             int accountId = resultSetUsers.getInt("accountId");
             BigDecimal amount = resultSetUsers.getBigDecimal("amount");
             Timestamp time = resultSetUsers.getTimestamp("time");
-            createNewDeposit(id, accountId, amount, time);
+            createNewDeposit(id, amount, time, accountId, incomeSourceId);
         }
     }
 
@@ -62,10 +66,11 @@ public class DepositService {
                 .executeQuery("select * from expense_tracker.deposit ORDER BY iddeposit DESC LIMIT 1");
         while (resultSetUsers.next()) {
             int id = resultSetUsers.getInt("iddeposit");
-            int accountId = resultSetUsers.getInt("accountId");
+            int incomeSourceId = resultSetUsers.getInt("incomeSourceId");
             BigDecimal amount = resultSetUsers.getBigDecimal("amount");
             Timestamp time = resultSetUsers.getTimestamp("time");
-            createNewDeposit(id, accountId, amount, time);
+            int accountId = resultSetUsers.getInt("accountId");
+            createNewDeposit(id, amount, time, incomeSourceId, accountId);
         }
     }
 

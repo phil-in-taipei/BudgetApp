@@ -95,6 +95,8 @@ public class SavingsAccountService {
         updatedAccount.setAccountBalance(
                 updatedAccount.getAccountBalance().add(BigDecimal.valueOf(amountModified))
         );
+        System.out.println("Adding " + updatedAccount.getAccountBalance() + " and " + BigDecimal.valueOf(amountModified));
+        System.out.println("producing this result: " + updatedAccount.getAccountBalance().add(BigDecimal.valueOf(amountModified)));
         return updatedAccount;
     }
 
@@ -138,6 +140,7 @@ public class SavingsAccountService {
             PreparedStatement ps = dbConnection.prepareStatement(sql);
             ps.setBigDecimal(1, balance);
             ps.setInt(2, accountID);
+            System.out.println("Updating database account: " + balance);
             System.out.println(ps);
             ps.executeUpdate();
             ps.close();

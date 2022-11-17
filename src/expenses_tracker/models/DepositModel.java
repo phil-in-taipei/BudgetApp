@@ -2,13 +2,15 @@ package expenses_tracker.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class DepositModel {
 
     int id;
 
     int accountId;
+
+    int incomeSourceId;
+
     BigDecimal depositAmount; // 2022-11-17 14:48:05
 
     Timestamp time;
@@ -19,20 +21,22 @@ public class DepositModel {
     public String toString() {
         return "DepositModel{" +
                 "ID=" + id +
-                ", Account Id=" + accountId +
+                ", Income Source Id=" + incomeSourceId +
                 ", Deposit Amount=" + depositAmount +
                 ", Time=" + time +
+                ", Account Id=" + accountId +
                 '}';
     }
 
     public DepositModel(
-            int id, int accountId,
+            int id,
             BigDecimal depositAmount,
-            Timestamp time) {
+            Timestamp time, int incomeSourceId, int accountId) {
         this.id = id;
         this.accountId = accountId;
         this.depositAmount = depositAmount;
         this.time = time;
+        this.incomeSourceId = incomeSourceId;
     }
 
     public int getId() {
@@ -67,7 +71,15 @@ public class DepositModel {
         this.time = time;
     }
 
+    public int getIncomeSourceId() {
+        return incomeSourceId;
+    }
+
+    public void setIncomeSourceId(int incomeSourceId) {
+        this.incomeSourceId = incomeSourceId;
+    }
+
     public static String[] getModelFields () {
-        return new String[]{"id", "accountId", "depositAmount" };
+        return new String[]{"id", "depositAmount",  "incomeSourceId",  "accountId"};
     }
 }

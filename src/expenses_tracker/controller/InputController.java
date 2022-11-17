@@ -168,6 +168,7 @@ public class InputController {
             SavingsAccountService.populateAccountsHashmap(dbConnection);
             UserService.populateUserHashmap(dbConnection);
             DepositService.populateDepositHashmap(dbConnection);
+            IncomeSourceService.populateIncomeHashmap(dbConnection);
             continueSubMenuLoop = true;
             while(continueSubMenuLoop) {
                 System.out.println("Deposits Menu");
@@ -186,6 +187,7 @@ public class InputController {
         } else if (Objects.equals(menuOptionInput, "7")) {
             UserService.populateUserHashmap(dbConnection);
             IncomeSourceService.populateIncomeHashmap(dbConnection);
+            continueSubMenuLoop = true;
             while(continueSubMenuLoop) {
                 System.out.println("Income Source Menu");
                 PrintInfoClass.printSubMenuOptionPrompt("Income Source");
