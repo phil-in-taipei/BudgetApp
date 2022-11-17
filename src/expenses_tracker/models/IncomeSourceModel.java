@@ -1,5 +1,7 @@
 package expenses_tracker.models;
 
+import expenses_tracker.data.UserState;
+
 public class IncomeSourceModel {
 
     int id;
@@ -42,5 +44,14 @@ public class IncomeSourceModel {
 
     public String getIncomeSourceName() {
         return incomeSourceName;
+    }
+
+    @Override
+    public String toString() {
+        return "IncomeSourceModel{" +
+                "id=" + id +
+                ", user=" + UserState.usersHashMap.get(userId) +
+                ", incomeSourceName='" + incomeSourceName + '\'' +
+                '}';
     }
 }

@@ -51,6 +51,18 @@ public class PrintInfoClass {
         System.out.println("-----------------------------------------------------------------------------");
     }
 
+    public static void printIncomeObjectsInState(
+            HashMap<Integer, IncomeSourceModel> integerIncomeSourceModelHashMap) {
+        PrintInfoClass.printDividerLine();
+        Set entries = integerIncomeSourceModelHashMap.entrySet();
+        Iterator iterator = entries.iterator();
+        while(iterator.hasNext()) {
+            Map.Entry userObj = (Map.Entry)iterator.next();
+            System.out.println(userObj.getValue());
+        }
+        PrintInfoClass.printDividerLine();
+    }
+
     public static void printIntro(String exerciseName) {
         printDividerLine();
         System.out.println(
