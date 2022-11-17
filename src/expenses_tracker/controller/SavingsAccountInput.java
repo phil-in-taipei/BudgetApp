@@ -44,6 +44,29 @@ public class SavingsAccountInput {
         PrintInfoClass.printDividerLine();
     }
 
+    public static void handleDeleteAccountInput(Connection dbConnection)
+            throws SQLException {
+        Scanner eventOptionScanner = new Scanner(System.in);
+        System.out.println("Which savings account would you like to delete (enter account id)?");
+        PrintInfoClass.printDividerLine();
+        String accountIdInput = eventOptionScanner.nextLine();
+        int deleteIndex = Integer.parseInt(accountIdInput);
+        PrintInfoClass.printDividerLine();
+        System.out.println("Are you sure that you want to delete "
+                + SavingsAccountState.savingsAccountHashMap.get(deleteIndex) + " ?");
+        PrintInfoClass.printDividerLine();
+        System.out.println("Enter 'y' or 'n'");
+        PrintInfoClass.printDividerLine();
+        String confirmationInput = eventOptionScanner.nextLine();
+        if (confirmationInput.equalsIgnoreCase("y")) {
+            System.out.println("Deleting "
+                    + SavingsAccountState.savingsAccountHashMap.get(deleteIndex));
+            SavingsAccountService.deleteSavingsAccount(deleteIndex, dbConnection);
+        } else {
+            System.out.println("Deletion cancelled!");
+        }
+    }
+
     public static void handleUpdateAccountInput(
             String[] fields, String submenuName, String[] inputData, Connection dbConnection)
             throws SQLException {

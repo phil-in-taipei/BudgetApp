@@ -54,7 +54,7 @@ public class UserInput {
             System.out.println("Deleting "
                     + UserState.usersHashMap.get(deleteIndex));
             UserService.deleteUser(deleteIndex, dbConnection);
-            UserService.deleteUser(deleteIndex, dbConnection);
+            //UserService.deleteUser(deleteIndex, dbConnection);
         } else {
             System.out.println("Deletion cancelled!");
         }

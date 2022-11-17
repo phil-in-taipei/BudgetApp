@@ -19,6 +19,22 @@ public class SavingsAccountService {
         SavingsAccountState.savingsAccountHashMap.put(newSavingsAccount.getId(), newSavingsAccount);
     }
 
+    public static void deleteSavingsAccount(int accountId, Connection dbConnection) {
+        String sql = "DELETE FROM expense_tracker.account " +
+                "WHERE idaccount = ? ";
+        try {
+            PreparedStatement ps = dbConnection.prepareStatement(sql);
+            ps.setInt(1, accountId);
+            SavingsAccountState.savingsAccountHashMap.remove(accountId);
+            System.out.println(ps);
+            ps.executeUpdate();
+            ps.close();
+
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
+        }
+    }
+
     public static void insertNewAccountIntoDatabase(
             int userId, int bankId,
             Connection dbConnection)  throws SQLException {

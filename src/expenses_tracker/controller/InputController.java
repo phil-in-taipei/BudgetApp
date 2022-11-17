@@ -71,7 +71,7 @@ public class InputController {
             UserInput.handleDeleteUserInput(dbConnection);
         } else if (submenuName == "Savings Accounts") {
             System.out.println("Call handle deletion of accounts ....");
-            //BankInput.handleCreateBankInput(fields, submenuName, inputData, dbConnection);
+            SavingsAccountInput.handleDeleteAccountInput(dbConnection);
         } else if (submenuName == "Bank") {
             BankInput.handleDeleteBankInput(dbConnection);
         } else {
