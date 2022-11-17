@@ -14,7 +14,6 @@ public class BankService {
                 Integer.parseInt(inputData[0]),
                 inputData[1]
         );
-        //BankState.banks.add(newBank);
         BankState.banksHashMap.put(newBank.getId(), newBank);
         return  newBank;
     }
