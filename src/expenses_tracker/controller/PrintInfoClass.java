@@ -1,6 +1,7 @@
 package expenses_tracker.controller;
 
 import expenses_tracker.models.BankModel;
+import expenses_tracker.models.DepositModel;
 import expenses_tracker.models.SavingsAccountModel;
 import expenses_tracker.models.UserModel;
 
@@ -35,6 +36,18 @@ public class PrintInfoClass {
                 "Please enter a " + fieldName
         );
         printDividerLine();
+    }
+
+    public static void printDepositObjectsInState(
+            HashMap<Integer, DepositModel> depositModelHashMap) {
+        PrintInfoClass.printDividerLine();
+        Set entries = depositModelHashMap.entrySet();
+        Iterator iterator = entries.iterator();
+        while(iterator.hasNext()) {
+            Map.Entry userObj = (Map.Entry)iterator.next();
+            System.out.println(userObj.getValue());
+        }
+        PrintInfoClass.printDividerLine();
     }
 
     public static void printDividerLine() {

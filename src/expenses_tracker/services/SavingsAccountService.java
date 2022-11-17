@@ -6,6 +6,7 @@ import expenses_tracker.models.SavingsAccountModel;
 import expenses_tracker.models.UserModel;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.*;
 
 public class SavingsAccountService {
@@ -87,6 +88,14 @@ public class SavingsAccountService {
         }
     }
 
+    public static SavingsAccountModel updateAccountBalance(Double amountModified, int accountId) {
+        SavingsAccountModel updatedAccount = SavingsAccountState.savingsAccountHashMap.get(accountId);
+        updatedAccount.setAccountBalance(
+                updatedAccount.getAccountBalance().add(BigDecimal.valueOf(amountModified))
+        );
+        return updatedAccount;
+    }
+
     public static void updateAccountInDatabase(
             String[] inputData,
             int userID,
@@ -99,6 +108,24 @@ public class SavingsAccountService {
             ps.setInt(2, Integer.parseInt(inputData[2]));
             //ps.setString(3, inputData[3]);
             ps.setInt(3, userID);
+            System.out.println(ps);
+            ps.executeUpdate();
+            ps.close();
+        }  catch (SQLException e) {
+            e.printStackTrace();
+        }
+    } // ps.setDouble(3, 0.0);
+
+    public static void updateAccountInDatabase(
+            BigDecimal balance,
+            int accountID,
+            Connection dbConnection) throws SQLException { // balance = ?
+        String sql = "UPDATE expense_tracker.account SET balance = ? "
+                + "WHERE idaccount = ? ";
+        try {
+            PreparedStatement ps = dbConnection.prepareStatement(sql);
+            ps.setBigDecimal(1, balance);
+            ps.setInt(2, accountID);
             System.out.println(ps);
             ps.executeUpdate();
             ps.close();
