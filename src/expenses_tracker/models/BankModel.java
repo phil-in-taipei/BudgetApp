@@ -14,7 +14,7 @@ public class BankModel {
     String bankName;
 
     public static String[] getModelFields () {
-        return new String[]{"id", "bankName"};
+        return new String[]{"id", "Bank Name"};
     }
 
     public BankModel(int id, String bankName) {

@@ -43,6 +43,29 @@ public class ExpenseService {
         }
     }
 
+    public static void populateExpenseHashmap(Connection dbConnection) throws SQLException {
+        statement = dbConnection.createStatement();
+        resultSetExpenses = statement
+                .executeQuery("select * from expense_tracker.expense");
+        while (resultSetExpenses.next()) {
+            int id = resultSetExpenses.getInt("idexpense");
+            String expenseName = resultSetExpenses.getString("expense_name");
+            int userId = resultSetExpenses.getInt("user");
+            createNewExpense(id, expenseName, userId);
+        }
+    }
 
+    public static void updateExpenseHashmap(Connection dbConnection) throws SQLException {
+        statement = dbConnection.createStatement();
+        // Result set get the result of the SQL query
+        resultSetExpenses = statement
+                .executeQuery("select * from expense_tracker.expense ORDER BY idexpense DESC LIMIT 1");
+        while (resultSetExpenses.next()) {
+            int id = resultSetExpenses.getInt("idexpense");
+            String expenseName = resultSetExpenses.getString("expense_name");
+            int userId = resultSetExpenses.getInt("user");
+            createNewExpense(id, expenseName, userId);
+        }
+    }
 
 }

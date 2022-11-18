@@ -17,7 +17,7 @@ public class UserModel {
     }
 
     public static String[] getModelFields () {
-        return new String[]{"id", "givenName", "surname", "email"};
+        return new String[]{"id", "Given Name", "Surname", "Email Address"};
     }
 
     public UserModel(int id, String givenName, String surname, String email) {

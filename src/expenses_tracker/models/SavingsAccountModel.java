@@ -63,7 +63,7 @@ public class SavingsAccountModel {
     }
 
     public static String[] getModelFields () {
-        return new String[]{"id", "userId", "bankId" };
+        return new String[]{"id", "User ID", "Bank ID" };
     }
 
 

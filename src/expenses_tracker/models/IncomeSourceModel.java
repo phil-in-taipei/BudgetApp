@@ -13,7 +13,7 @@ public class IncomeSourceModel {
 
     public static String[] getModelFields () {
 
-        return new String[]{"id", "userId", "incomeSourceName" };
+        return new String[]{"id", "User ID", "Income Source Name" };
     }
 
     public IncomeSourceModel(int id, int userId, String incomeSourceName) {

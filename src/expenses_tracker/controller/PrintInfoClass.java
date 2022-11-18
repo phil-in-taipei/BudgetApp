@@ -51,10 +51,22 @@ public class PrintInfoClass {
         System.out.println("-----------------------------------------------------------------------------");
     }
 
-    public static void printIncomeObjectsInState(
-            HashMap<Integer, IncomeSourceModel> integerIncomeSourceModelHashMap) {
+    public static void printExpenseObjectsInState(
+            HashMap<Integer, ExpenseModel> expenseModelHashMap) {
         PrintInfoClass.printDividerLine();
-        Set entries = integerIncomeSourceModelHashMap.entrySet();
+        Set entries = expenseModelHashMap.entrySet();
+        Iterator iterator = entries.iterator();
+        while(iterator.hasNext()) {
+            Map.Entry userObj = (Map.Entry)iterator.next();
+            System.out.println(userObj.getValue());
+        }
+        PrintInfoClass.printDividerLine();
+    }
+
+    public static void printIncomeObjectsInState(
+            HashMap<Integer, IncomeSourceModel> incomeSourceModelHashMap) {
+        PrintInfoClass.printDividerLine();
+        Set entries = incomeSourceModelHashMap.entrySet();
         Iterator iterator = entries.iterator();
         while(iterator.hasNext()) {
             Map.Entry userObj = (Map.Entry)iterator.next();
@@ -97,8 +109,9 @@ public class PrintInfoClass {
                         + "\n5) Deposits"
                         + "\n6) Expenses"
                         + "\n7) Income Sources"
-                        + "\n8) Reports"
-                        + "\n9) Exit"
+                        + "\n8) Spending Record"
+                        + "\n9) Reports"
+                        + "\n10) Exit"
         );
         printDividerLine();
     }

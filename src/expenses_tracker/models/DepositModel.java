@@ -80,6 +80,6 @@ public class DepositModel {
     }
 
     public static String[] getModelFields () {
-        return new String[]{"id", "depositAmount",  "incomeSourceId",  "accountId"};
+        return new String[]{"id", "Deposit Amount",  "Income Source ID",  "Account ID"};
     }
 }

@@ -22,6 +22,20 @@ public class ExpenseModel {
         return expenseName;
     }
 
+    @Override
+    public String toString() {
+        return "ExpenseModel{" +
+                "id=" + id +
+                ", expenseName='" + expenseName + '\'' +
+                ", userId=" + userId +
+                '}';
+    }
+
+    public static String[] getModelFields () {
+
+        return new String[]{"id", "User ID", "Expense Name" };
+    }
+
     public int getUserId() {
         return userId;
     }

@@ -65,6 +65,6 @@ public class WithdrawModel {
     }
 
     public static String[] getModelFields () {
-        return new String[]{"id", "accountId", "withdrawAmount" };
+        return new String[]{"id", "Account ID", "Withdraw Amount" };
     }
 }

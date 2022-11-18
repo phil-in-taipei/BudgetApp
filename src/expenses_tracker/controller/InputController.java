@@ -43,43 +43,47 @@ public class InputController {
         String[] inputData = new String[fields.length];
         //System.out.println("The is the obj to be created: " + submenuName);
         PrintInfoClass.printDividerLine();
-        if (submenuName == "User") { // Savings Accounts
+        if (submenuName == "User") {
             UserInput.handleCreateUserInput(fields, submenuName, inputData, dbConnection);
         } else if (submenuName == "Savings Accounts") {
-            //System.out.println("Call handle create accounts ....");
             SavingsAccountInput.handleCreateAccountInput(fields, submenuName, inputData, dbConnection);
         } else if (submenuName == "Deposits") {
-            //System.out.println("Call handle create deposit ....");
             DepositsInput.handleCreateDepositInput(fields, submenuName, inputData, dbConnection);
-            //SavingsAccountInput.handleCreateAccountInput(fields, submenuName, inputData, dbConnection);
         } else if (submenuName == "Withdraws") {
-            //System.out.println("Call handle create deposit ....");
             WithdrawsInput.handleCreateWithdrawInput(fields, submenuName, inputData, dbConnection);
-            //SavingsAccountInput.handleCreateAccountInput(fields, submenuName, inputData, dbConnection);
         } else if (submenuName == "Bank") {
             BankInput.handleCreateBankInput(fields, submenuName, inputData, dbConnection);
         } else if (submenuName == "Income Source") {
             IncomeSourceInput.handleCreateIncomeSourceInput(
                     fields, submenuName, inputData, dbConnection
             );
+        } else if (submenuName == "Expenses") {
+            ExpensesInput.handleCreateExpenseInput(
+                    fields, submenuName, inputData, dbConnection
+            );
         } else {
-            System.out.println("No more options");
+            System.out.println("There is no create option for: " + submenuName);
+            PrintInfoClass.printDividerLine();
         }
     }
 
     public static void handleDeleteInput(
             String submenuName) throws SQLException {
-        handleDisplayOfObjects(submenuName);
-        System.out.println("This is the submenu name: " + submenuName);
+        //handleDisplayOfObjects(submenuName);
+        //System.out.println("This is the submenu name: " + submenuName);
         if (submenuName == "User") {
+            handleDisplayOfObjects(submenuName);
             UserInput.handleDeleteUserInput(dbConnection);
         } else if (submenuName == "Savings Accounts") {
+            handleDisplayOfObjects(submenuName);
             //System.out.println("Call handle deletion of accounts ....");
             SavingsAccountInput.handleDeleteAccountInput(dbConnection);
         } else if (submenuName == "Bank") {
+            handleDisplayOfObjects(submenuName);
             BankInput.handleDeleteBankInput(dbConnection);
         } else {
-            System.out.println("No more options");
+            System.out.println("There is no delete option for " + submenuName);
+            PrintInfoClass.printDividerLine();
         }
     }
 
@@ -99,8 +103,10 @@ public class InputController {
             PrintInfoClass.printWithdrawObjectsInState(WithdrawState.withdrawHashMap);
         } else if (submenuName == "Income Source") {
             PrintInfoClass.printIncomeObjectsInState(IncomeSourceState.incomeHashMap);
+        } else if (submenuName == "Expenses") {
+            PrintInfoClass.printExpenseObjectsInState(ExpenseState.expensesHashMap);
         } else {
-            System.out.println("No option");
+            System.out.println("There is no display option for " + submenuName);
         }
     }
 
@@ -181,8 +187,19 @@ public class InputController {
             }
             return true;
         } else if (Objects.equals(menuOptionInput, "6")) {
-            System.out.println("Expenses Menu");
-            PrintInfoClass.printSubMenuOptionPrompt("Expenses");
+            UserService.populateUserHashmap(dbConnection);
+            ExpenseService.populateExpenseHashmap(dbConnection);
+            continueSubMenuLoop = true;
+            while(continueSubMenuLoop) {
+                System.out.println("Expenses Menu");
+                PrintInfoClass.printSubMenuOptionPrompt("Expenses");
+                String[] fields = ExpenseModel.getModelFields();
+                Scanner eventOptionScanner = new Scanner(System.in);
+                String subMenuOption = getMenuOption(eventOptionScanner);
+                continueSubMenuLoop = handleSubMenuInput(subMenuOption, "Expenses", fields);
+                //System.out.println("Continue submenu loop: " + continueSubMenuLoop);
+            }
+
             return true;
         } else if (Objects.equals(menuOptionInput, "7")) {
             UserService.populateUserHashmap(dbConnection);
@@ -220,19 +237,19 @@ public class InputController {
         //}
         //System.out.println("\n");
         if (Objects.equals(subMenuOptionInput, "1")) {
-            System.out.println("Create " +submenuName + " Menu");
+            //System.out.println("Create " +submenuName + " Menu");
             handleCreateInput(fields, submenuName);
             return true;
         } else if (Objects.equals(subMenuOptionInput, "2")) {
-            System.out.println("Update " +submenuName + " Menu");
+            //System.out.println("Update " +submenuName + " Menu");
             handleUpdateInput(fields, submenuName);
             return true;
         } else if (Objects.equals(subMenuOptionInput, "3")) {
-            System.out.println("Delete " +submenuName + " Menu");
+            //System.out.println("Delete " +submenuName + " Menu");
             handleDeleteInput(submenuName);
             return true;
         } else if (Objects.equals(subMenuOptionInput, "4")) {
-            System.out.println("Display " +submenuName + " Menu");
+            //System.out.println("Display " +submenuName + " Menu");
             handleDisplayOfObjects(submenuName);
             return true;
         } else {
@@ -244,17 +261,20 @@ public class InputController {
     public static void handleUpdateInput(
             String[] fields, String submenuName) throws SQLException {
         String[] inputData = new String[fields.length];
-        handleDisplayOfObjects(submenuName);
+        //handleDisplayOfObjects(submenuName);
         //System.out.println("The is the obj to be updated: " + submenuName);
         if (submenuName == "User") {
+            handleDisplayOfObjects(submenuName);
             UserInput.handleUpdateUserInput(fields, submenuName,inputData, dbConnection);
         } else if (submenuName == "Savings Accounts") {
-            //System.out.println("Call handle saving accounts update ....");
+            handleDisplayOfObjects(submenuName);
             SavingsAccountInput.handleUpdateAccountInput(fields, submenuName, inputData, dbConnection);
         } else if (submenuName == "Bank") {
+            handleDisplayOfObjects(submenuName);
             BankInput.handleUpdateBankInput(fields, submenuName, inputData, dbConnection);
         } else {
-            System.out.println("No more options");
+            System.out.println("There is no update option for " + submenuName);
+            PrintInfoClass.printDividerLine();
         }
     }
 }
