@@ -199,9 +199,12 @@ public class InputController {
             }
             return true;
         } else if (Objects.equals(menuOptionInput, "8")) {
+            System.out.println("Spending Record");
+            return true;
+        } else if (Objects.equals(menuOptionInput, "9")) {
             System.out.println("Reports Menu");
             return true;
-        }else {
+        } else {
             System.out.println("Exit Menu");
             return false;
         }
