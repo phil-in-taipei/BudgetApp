@@ -15,3 +15,30 @@ WHERE expense_tracker.account.userId = 4
 AND expense_tracker.account.bankId = 2;
 
 
+Get spending records by user with user id:
+SELECT spendingRecord.spendingRecordId, spendingRecord.expense_id, spendingRecord.time, spendingRecord.amount
+FROM expense_tracker.spendingRecord
+JOIN expense_tracker.expense
+ON expense.idexpense = spendingRecord.expense_id
+JOIN expense_tracker.user
+ON user.userid = expense.user
+WHERE user.userId = 2;
+
+Get deposits by conditions example:
+SELECT *
+FROM expense_tracker.deposit
+JOIN expense_tracker.account
+WHERE account.idaccount = 1
+AND deposit.amount > 1000
+AND deposit.amount < 4000;
+
+SELECT deposit.iddeposit, deposit.amount, deposit.time, deposit.incomeSourceId, deposit.accountId
+FROM expense_tracker.deposit
+JOIN expense_tracker.account
+ON deposit.accountId = account.idaccount
+JOIN expense_tracker.user
+ON user.userid = account.userId
+WHERE user.userid = 1
+AND deposit.time LIKE '2022-11%';
+
+

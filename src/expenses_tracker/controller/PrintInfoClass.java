@@ -130,18 +130,6 @@ public class PrintInfoClass {
         printDividerLine();
     }
 
-    public static void printUserObjectsInState(HashMap<Integer, UserModel> usersHashMap) {
-        //System.out.println("Each element (key and value) in the HashMap using entries");
-        PrintInfoClass.printDividerLine();
-        Set entries = usersHashMap.entrySet();
-        Iterator iterator = entries.iterator();
-        while(iterator.hasNext()) {
-            Map.Entry userObj = (Map.Entry)iterator.next();
-            System.out.println("The key (id) is: "+ userObj.getKey()
-                    + " and the value is: " + userObj.getValue());
-        }
-        PrintInfoClass.printDividerLine();
-    }
 
     public static void printSavingsAccountObjectsInState(
             HashMap<Integer, SavingsAccountModel> savingsAccountModelHashMap) {
@@ -151,6 +139,31 @@ public class PrintInfoClass {
         while(iterator.hasNext()) {
             Map.Entry userObj = (Map.Entry)iterator.next();
             System.out.println(userObj.getValue());
+        }
+        PrintInfoClass.printDividerLine();
+    }
+
+    public static void printSpendingRecordObjectsInState(
+            HashMap<Integer, SpendingRecordModel> spendingRecordModelHashMap) {
+        PrintInfoClass.printDividerLine();
+        Set entries = spendingRecordModelHashMap.entrySet();
+        Iterator iterator = entries.iterator();
+        while(iterator.hasNext()) {
+            Map.Entry userObj = (Map.Entry)iterator.next();
+            System.out.println(userObj.getValue());
+        }
+        PrintInfoClass.printDividerLine();
+    }
+
+    public static void printUserObjectsInState(HashMap<Integer, UserModel> usersHashMap) {
+        //System.out.println("Each element (key and value) in the HashMap using entries");
+        PrintInfoClass.printDividerLine();
+        Set entries = usersHashMap.entrySet();
+        Iterator iterator = entries.iterator();
+        while(iterator.hasNext()) {
+            Map.Entry userObj = (Map.Entry)iterator.next();
+            System.out.println("The key (id) is: "+ userObj.getKey()
+                    + " and the value is: " + userObj.getValue());
         }
         PrintInfoClass.printDividerLine();
     }

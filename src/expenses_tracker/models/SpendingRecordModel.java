@@ -1,5 +1,7 @@
 package expenses_tracker.models;
 
+import expenses_tracker.data.ExpenseState;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
@@ -56,5 +58,13 @@ public class SpendingRecordModel {
         this.time = time;
     }
 
-
+    @Override
+    public String toString() {
+        return "SpendingRecordModel{" +
+                "id=" + id +
+                ", Expense=" + ExpenseState.expensesHashMap.get(expenseId).getExpenseName() +
+                ", time=" + time +
+                ", spendingAmount=" + spendingAmount +
+                '}';
+    }
 }

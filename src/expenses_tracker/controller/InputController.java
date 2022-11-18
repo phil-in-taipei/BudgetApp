@@ -61,6 +61,10 @@ public class InputController {
             ExpensesInput.handleCreateExpenseInput(
                     fields, submenuName, inputData, dbConnection
             );
+        } else if (submenuName == "Spending Record") {
+            SpendingRecordInput.handleSpendingRecordInput(
+                    fields, submenuName, inputData, dbConnection
+            );
         } else {
             System.out.println("There is no create option for: " + submenuName);
             PrintInfoClass.printDividerLine();
@@ -105,6 +109,9 @@ public class InputController {
             PrintInfoClass.printIncomeObjectsInState(IncomeSourceState.incomeHashMap);
         } else if (submenuName == "Expenses") {
             PrintInfoClass.printExpenseObjectsInState(ExpenseState.expensesHashMap);
+        } else if (submenuName == "Spending Record") {
+            PrintInfoClass.printSpendingRecordObjectsInState(
+                    SpendingRecordState.spendindRecordHashMap);
         } else {
             System.out.println("There is no display option for " + submenuName);
         }
@@ -216,7 +223,19 @@ public class InputController {
             }
             return true;
         } else if (Objects.equals(menuOptionInput, "8")) {
-            System.out.println("Spending Record");
+            //UserService.populateUserHashmap(dbConnection);
+            ExpenseService.populateExpenseHashmap(dbConnection);
+            SpendingRecordService.populateSpendingRecordHashmap(dbConnection);
+            continueSubMenuLoop = true;
+            while(continueSubMenuLoop) {
+                System.out.println("Spending Record");
+                PrintInfoClass.printSubMenuOptionPrompt("Spending Record");
+                String[] fields = SpendingRecordModel.getModelFields();
+                Scanner eventOptionScanner = new Scanner(System.in);
+                String subMenuOption = getMenuOption(eventOptionScanner);
+                continueSubMenuLoop = handleSubMenuInput(subMenuOption, "Spending Record", fields);
+                //System.out.println("Continue submenu loop: " + continueSubMenuLoop);
+            }
             return true;
         } else if (Objects.equals(menuOptionInput, "9")) {
             System.out.println("Reports Menu");

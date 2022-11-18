@@ -19,8 +19,8 @@ public class SpendingRecordInput {
             PrintInfoClass.printDividerLine();
             if (Objects.equals(fields[i], "Expense ID")) {
                 System.out.println("These are the expense selections");
-                PrintInfoClass.printSavingsAccountObjectsInState(
-                        SavingsAccountState.savingsAccountHashMap
+                PrintInfoClass.printExpenseObjectsInState(
+                        ExpenseState.expensesHashMap
                 );
             }
             PrintInfoClass.printCreatePrompt(fields[i], submenuName);
@@ -31,7 +31,7 @@ public class SpendingRecordInput {
                 Integer.parseInt(inputData[1])
         );
         System.out.println("Spending $" + inputData[2]);
-        System.out.println("On: " + expenseObj);
+        System.out.println("On: " + expenseObj.getExpenseName());
         SpendingRecordService.insertNewSpendingRecordIntoDatabase(Integer.parseInt(inputData[1]),
                 Double.parseDouble(inputData[2]), dbConnection
         );
