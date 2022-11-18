@@ -23,9 +23,13 @@ public class SavingsAccountInput {
         Scanner eventOptionScanner = new Scanner(System.in);
         for (int i = 1; i < fields.length; i++) {
             PrintInfoClass.printDividerLine();
-            if (Objects.equals(fields[i], "bankId")) {
+            if (Objects.equals(fields[i], "Bank ID")) {
                 System.out.println("These are the bank selections");
                 PrintInfoClass.printBankObjectsInState(BankState.banksHashMap);
+            }
+            if (Objects.equals(fields[i], "User ID")) {
+                System.out.println("These are the user selections");
+                PrintInfoClass.printUserObjectsInState(UserState.usersHashMap);
             }
             PrintInfoClass.printCreatePrompt(fields[i], submenuName);
             String fieldInput = eventOptionScanner.nextLine();

@@ -8,7 +8,7 @@ import java.sql.*;
 
 public class WithdrawService {
     static Statement statement = null;
-    static ResultSet resultSetUsers = null;
+    static ResultSet resultSetWithdraws = null;
 
     public static void createNewWithdraw
             (int id, int accountId, BigDecimal amount, Timestamp time) {
@@ -44,13 +44,13 @@ public class WithdrawService {
 
     public static void populateWithdrawHashmap(Connection dbConnection) throws SQLException {
         statement = dbConnection.createStatement();
-        resultSetUsers = statement
+        resultSetWithdraws = statement
                 .executeQuery("select * from expense_tracker.withdraw");
-        while (resultSetUsers.next()) {
-            int id = resultSetUsers.getInt("idwithdraw");
-            int accountId = resultSetUsers.getInt("accountId");
-            BigDecimal amount = resultSetUsers.getBigDecimal("amount");
-            Timestamp time = resultSetUsers.getTimestamp("time");
+        while (resultSetWithdraws.next()) {
+            int id = resultSetWithdraws.getInt("idwithdraw");
+            int accountId = resultSetWithdraws.getInt("accountId");
+            BigDecimal amount = resultSetWithdraws.getBigDecimal("amount");
+            Timestamp time = resultSetWithdraws.getTimestamp("time");
             createNewWithdraw(id, accountId, amount, time);
         }
     }
@@ -58,13 +58,13 @@ public class WithdrawService {
     public static void updateWithdrawHashmap(Connection dbConnection) throws SQLException {
         statement = dbConnection.createStatement();
         // Result set get the result of the SQL query
-        resultSetUsers = statement
+        resultSetWithdraws = statement
                 .executeQuery("select * from expense_tracker.withdraw ORDER BY idwithdraw DESC LIMIT 1");
-        while (resultSetUsers.next()) {
-            int id = resultSetUsers.getInt("idwithdraw");
-            int accountId = resultSetUsers.getInt("accountId");
-            BigDecimal amount = resultSetUsers.getBigDecimal("amount");
-            Timestamp time = resultSetUsers.getTimestamp("time");
+        while (resultSetWithdraws.next()) {
+            int id = resultSetWithdraws.getInt("idwithdraw");
+            int accountId = resultSetWithdraws.getInt("accountId");
+            BigDecimal amount = resultSetWithdraws.getBigDecimal("amount");
+            Timestamp time = resultSetWithdraws.getTimestamp("time");
             createNewWithdraw(id, accountId, amount, time);
         }
     }

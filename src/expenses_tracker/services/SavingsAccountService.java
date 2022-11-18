@@ -1,5 +1,6 @@
 package expenses_tracker.services;
 
+import expenses_tracker.controller.PrintInfoClass;
 import expenses_tracker.data.SavingsAccountState;
 import expenses_tracker.data.UserState;
 import expenses_tracker.models.SavingsAccountModel;
@@ -88,18 +89,6 @@ public class SavingsAccountService {
         }
     }
 
-    public static SavingsAccountModel updateAccountBalanceAdd(
-            Double amountModified, int accountId
-    ) {
-        SavingsAccountModel updatedAccount = SavingsAccountState.savingsAccountHashMap.get(accountId);
-        updatedAccount.setAccountBalance(
-                updatedAccount.getAccountBalance().add(BigDecimal.valueOf(amountModified))
-        );
-        System.out.println("Adding " + updatedAccount.getAccountBalance() + " and " + BigDecimal.valueOf(amountModified));
-        System.out.println("producing this result: " + updatedAccount.getAccountBalance().add(BigDecimal.valueOf(amountModified)));
-        return updatedAccount;
-    }
-
     public static SavingsAccountModel updateAccountBalanceSubtract(
             Double amountModified, int accountId
     ) {
@@ -122,6 +111,7 @@ public class SavingsAccountService {
             ps.setInt(2, Integer.parseInt(inputData[2]));
             //ps.setString(3, inputData[3]);
             ps.setInt(3, userID);
+            PrintInfoClass.printDividerLine();
             System.out.println(ps);
             ps.executeUpdate();
             ps.close();
@@ -140,7 +130,9 @@ public class SavingsAccountService {
             PreparedStatement ps = dbConnection.prepareStatement(sql);
             ps.setBigDecimal(1, balance);
             ps.setInt(2, accountID);
-            System.out.println("Updating database account: " + balance);
+            PrintInfoClass.printDividerLine();
+            System.out.println("Updating account in database with new balance: " + balance);
+            PrintInfoClass.printDividerLine();
             System.out.println(ps);
             ps.executeUpdate();
             ps.close();
@@ -155,6 +147,13 @@ public class SavingsAccountService {
         updatedAccount.setBankId(Integer.parseInt(inputData[2]));
         SavingsAccountState.savingsAccountHashMap.replace(accountId, updatedAccount);
         return updatedAccount;
+    }
+
+    public static void updateAccountsStateObject(BigDecimal newBalance, int accountId) {
+        // originalBalance.add(inputAmount)
+        SavingsAccountModel updatedAccount = SavingsAccountState.savingsAccountHashMap.get(accountId);
+        updatedAccount.setAccountBalance(newBalance);
+        SavingsAccountState.savingsAccountHashMap.replace(accountId, updatedAccount);
     }
 
 }

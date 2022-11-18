@@ -17,7 +17,7 @@ public class WithdrawsInput {
         Scanner eventOptionScanner = new Scanner(System.in);
         for (int i = 1; i < fields.length; i++) {
             PrintInfoClass.printDividerLine();
-            if (Objects.equals(fields[i], "accountId")) {
+            if (Objects.equals(fields[i], "Account ID")) {
                 System.out.println("These are the account selections");
                 PrintInfoClass.printSavingsAccountObjectsInState(
                         SavingsAccountState.savingsAccountHashMap
@@ -30,7 +30,9 @@ public class WithdrawsInput {
         SavingsAccountModel accountObj = SavingsAccountState.savingsAccountHashMap.get(
                 Integer.parseInt(inputData[1])
         );
+        PrintInfoClass.printDividerLine();
         System.out.println("Withdraw $" + inputData[2]);
+        PrintInfoClass.printDividerLine();
         System.out.println("From: " + accountObj);
         WithdrawService.insertNewWithdrawIntoDatabase(Integer.parseInt(inputData[1]),
                 Double.parseDouble(inputData[2]), dbConnection
@@ -43,6 +45,12 @@ public class WithdrawsInput {
                 updatedAccount.getAccountBalance(),
                 updatedAccount.getId(), dbConnection
         );
+        SavingsAccountService.updateAccountsStateObject(updatedAccount.getAccountBalance(),
+                accountObj.getId());
+        SavingsAccountModel updatedObj = SavingsAccountState.savingsAccountHashMap.get(
+                Integer.parseInt(inputData[1])
+        );
+        System.out.println("Updated in state: " + updatedObj);
         PrintInfoClass.printDividerLine();
     }
 
