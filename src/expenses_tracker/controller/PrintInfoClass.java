@@ -116,6 +116,20 @@ public class PrintInfoClass {
         printDividerLine();
     }
 
+    public static void printReportsMenuOptionPrompt() {
+        printDividerLine();
+        System.out.println("Please input menu option:");
+        printDividerLine();
+        System.out.println(
+                "1) Monthly Deposits"
+                        + "\n2) Monthly Withdraws "
+                        + "\n3) Monthly Expenses "
+                        + "\n4) Monthly Analysis "
+                        + "\n5) Exit "
+        );
+        printDividerLine();
+    }
+
     public static void printSubMenuOptionPrompt(String submenuName) {
         printDividerLine();
         System.out.println("Please input menu option:");

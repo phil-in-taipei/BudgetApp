@@ -30,6 +30,18 @@ public class InputController {
         database.closeDatabaseConnection();
     }
 
+    public static boolean confirmUser(String userID) {
+        Scanner userConfimationScanner = new Scanner(System.in);
+        PrintInfoClass.printDividerLine();
+        System.out.println("The user is");
+        PrintInfoClass.printDividerLine();
+        System.out.println(UserState.usersHashMap.get(Integer.parseInt(userID)));
+        PrintInfoClass.printDividerLine();
+        System.out.println("Is this correct?  (Enter 'y' or 'n')");
+        String userConfimation =  userConfimationScanner.nextLine();
+        return userConfimation.equalsIgnoreCase("y");
+    }
+
     public static String getMenuOption(Scanner eventOptionScanner) {
         String loopOption = eventOptionScanner.nextLine();
         PrintInfoClass.printDividerLine();
@@ -238,10 +250,75 @@ public class InputController {
             }
             return true;
         } else if (Objects.equals(menuOptionInput, "9")) {
-            System.out.println("Reports Menu");
+            UserService.populateUserHashmap(dbConnection);
+            BankService.populateBankHashmap(dbConnection);
+            //continueSubMenuLoop = true;
+            System.out.println("Welcome to Monthly Reports");
+            Scanner reportsOptionScanner = new Scanner(System.in);
+            PrintInfoClass.printUserObjectsInState(UserState.usersHashMap);
+            System.out.println("Please enter your user ID:");
+            PrintInfoClass.printDividerLine();
+            String userID = reportsOptionScanner.nextLine();
+            continueSubMenuLoop = confirmUser(userID);
+            while(continueSubMenuLoop) {
+                //continueSubMenuLoop = confirmUser(userID);
+                PrintInfoClass.printDividerLine();
+                System.out.println("Reports Menu");
+                PrintInfoClass.printReportsMenuOptionPrompt();
+                String reportsMenuOptionInput = reportsOptionScanner.nextLine();
+                PrintInfoClass.printDividerLine();
+                continueSubMenuLoop = handleReportsMenuInput(
+                        reportsMenuOptionInput, userID
+                );
+            }
             return true;
         } else {
             System.out.println("Exit Menu");
+            return false;
+        }
+    }
+
+    public static String[] handleMonthAndYearInput() {
+        Scanner monthAndYearScanner = new Scanner(System.in);
+        System.out.println("Please enter the month:");
+        PrintInfoClass.printDividerLine();
+        String month = monthAndYearScanner.nextLine();
+        PrintInfoClass.printDividerLine();
+        System.out.println("Please enter the year:");
+        PrintInfoClass.printDividerLine();
+        String year = monthAndYearScanner.nextLine();
+        return new String[]{month, year};
+    }
+
+    public static boolean handleReportsMenuInput(
+            String reportsMenuOptionInput, String userID
+    ) throws SQLException {
+        if (Objects.equals(reportsMenuOptionInput, "1")) {
+            String [] monthAndYear = handleMonthAndYearInput();
+            PrintInfoClass.printDividerLine();
+            System.out.println("Deposits for " + monthAndYear[0] + "/" + monthAndYear[1]);
+            //handleCreateInput(fields, submenuName);
+            return true;
+        } else if (Objects.equals(reportsMenuOptionInput, "2")) {
+            String [] monthAndYear = handleMonthAndYearInput();
+            PrintInfoClass.printDividerLine();
+            System.out.println("Withdraws for " + monthAndYear[0] + "/" + monthAndYear[1]);
+            //handleUpdateInput(fields, submenuName);
+            return true;
+        } else if (Objects.equals(reportsMenuOptionInput, "3")) {
+            String [] monthAndYear = handleMonthAndYearInput();
+            PrintInfoClass.printDividerLine();
+            System.out.println("Expenses for " + monthAndYear[0] + "/" + monthAndYear[1]);
+            //handleDeleteInput(submenuName);
+            return true;
+        } else if (Objects.equals(reportsMenuOptionInput, "4")) {
+            String [] monthAndYear = handleMonthAndYearInput();
+            PrintInfoClass.printDividerLine();
+            System.out.println("Analysis of " + monthAndYear[0] + "/" + monthAndYear[1]);
+            //handleDisplayOfObjects(submenuName);
+            return true;
+        } else {
+            System.out.println("Back to Main Menu");
             return false;
         }
     }
