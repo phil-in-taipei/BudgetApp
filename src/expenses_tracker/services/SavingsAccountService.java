@@ -141,7 +141,9 @@ public class SavingsAccountService {
         }
     }
 
-    public static SavingsAccountModel updateAccountsStateObject(String[] inputData, int accountId) { //
+    public static SavingsAccountModel updateAccountsStateObject(
+            String[] inputData, int accountId
+    ) { //
         SavingsAccountModel updatedAccount = SavingsAccountState.savingsAccountHashMap.get(accountId);
         updatedAccount.setUserId(Integer.parseInt(inputData[1]));
         updatedAccount.setBankId(Integer.parseInt(inputData[2]));
@@ -149,7 +151,9 @@ public class SavingsAccountService {
         return updatedAccount;
     }
 
-    public static void updateAccountsStateObject(BigDecimal newBalance, int accountId) {
+    public static void updateAccountsStateObject(
+            BigDecimal newBalance, int accountId
+    ) {
         // originalBalance.add(inputAmount)
         SavingsAccountModel updatedAccount = SavingsAccountState.savingsAccountHashMap.get(accountId);
         updatedAccount.setAccountBalance(newBalance);

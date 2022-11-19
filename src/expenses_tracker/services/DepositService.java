@@ -59,6 +59,35 @@ public class DepositService {
         }
     }
 
+    public static void populateDepositHashmap(
+            String userID, String[] monthAndYear,
+            Connection dbConnection
+    ) throws SQLException {
+        String monthYearDate = "'" + monthAndYear[1] + "-" + monthAndYear[0] + "%'";
+        //System.out.println(monthYearDate);
+        //System.out.println("'2022-11%'");
+        String sql = "SELECT deposit.iddeposit, deposit.incomeSourceId, " +
+                "deposit.accountId, deposit.amount, deposit.time " +
+                "FROM expense_tracker.deposit " +
+                "JOIN expense_tracker.account " +
+                "ON deposit.accountId = account.idaccount " +
+                "JOIN expense_tracker.user ON user.userid = account.userId " +
+                "WHERE user.userid = " + userID + " AND deposit.time LIKE " + monthYearDate;
+        statement = dbConnection.createStatement();
+        //System.out.println(sql);
+        resultSetUsers = statement
+                .executeQuery(sql);
+        //System.out.println(resultSetUsers);
+        while (resultSetUsers.next()) {
+            int id = resultSetUsers.getInt("iddeposit");
+            int incomeSourceId = resultSetUsers.getInt("incomeSourceId");
+            int accountId = resultSetUsers.getInt("accountId");
+            BigDecimal amount = resultSetUsers.getBigDecimal("amount");
+            Timestamp time = resultSetUsers.getTimestamp("time");
+            createNewDeposit(id, amount, time, accountId, incomeSourceId);
+        }
+    }
+
     public static void updateDepositHashmap(Connection dbConnection) throws SQLException {
         statement = dbConnection.createStatement();
         // Result set get the result of the SQL query

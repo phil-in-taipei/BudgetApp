@@ -252,6 +252,7 @@ public class InputController {
         } else if (Objects.equals(menuOptionInput, "9")) {
             UserService.populateUserHashmap(dbConnection);
             BankService.populateBankHashmap(dbConnection);
+            DepositState.depositHashMap.clear();
             //continueSubMenuLoop = true;
             System.out.println("Welcome to Monthly Reports");
             Scanner reportsOptionScanner = new Scanner(System.in);
@@ -261,7 +262,6 @@ public class InputController {
             String userID = reportsOptionScanner.nextLine();
             continueSubMenuLoop = confirmUser(userID);
             while(continueSubMenuLoop) {
-                //continueSubMenuLoop = confirmUser(userID);
                 PrintInfoClass.printDividerLine();
                 System.out.println("Reports Menu");
                 PrintInfoClass.printReportsMenuOptionPrompt();
@@ -297,6 +297,8 @@ public class InputController {
             String [] monthAndYear = handleMonthAndYearInput();
             PrintInfoClass.printDividerLine();
             System.out.println("Deposits for " + monthAndYear[0] + "/" + monthAndYear[1]);
+            DepositService.populateDepositHashmap(userID, monthAndYear, dbConnection);
+            PrintInfoClass.printDepositObjectsInState(DepositState.depositHashMap);
             //handleCreateInput(fields, submenuName);
             return true;
         } else if (Objects.equals(reportsMenuOptionInput, "2")) {
