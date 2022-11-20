@@ -51,9 +51,9 @@ public class ReportService {
     public static void calculateTotalSpending() {
         BigDecimal totalAmount = BigDecimal.valueOf(0.0);
         PrintInfoClass.printDividerLine();
-        System.out.println("Spending Record");
-        PrintInfoClass.printDividerLine();
-        System.out.println("TIME                      AMOUNT     EXPENSE");
+        //System.out.println("Spending Record");
+        //PrintInfoClass.printDividerLine();
+        //System.out.println("TIME                      AMOUNT     EXPENSE");
         PrintInfoClass.printDividerLine();
         Set entries = SpendingRecordState.spendindRecordHashMap.entrySet();
         Iterator iterator = entries.iterator();
@@ -62,15 +62,57 @@ public class ReportService {
             SpendingRecordModel spendingRecord = (SpendingRecordModel) obj.getValue();
             totalAmount = totalAmount.add(spendingRecord.getSpendingAmount());
             ExpenseModel expense = ExpenseState.expensesHashMap.get(spendingRecord.getExpenseId());
-            System.out.println(spendingRecord.getTime() + " "
-                    +  "    " + spendingRecord.getSpendingAmount()
-                    +  "    " + expense.getExpenseName());
+            //System.out.println(spendingRecord.getTime() + " "
+            //        +  "    " + spendingRecord.getSpendingAmount()
+            //        +  "    " + expense.getExpenseName());
         }
-        PrintInfoClass.printDividerLine();
+        //PrintInfoClass.printDividerLine();
         System.out.println(
                 PrintInfoClass.getBlackText() +  PrintInfoClass.getWhiteBackground()
                         + "Total Spending Amount: " + totalAmount + PrintInfoClass.getStandardFormat()
         );
+    }
+
+    public static void calculateSpendingRecordByExpense(
+            ExpenseModel expense) {
+        BigDecimal totalAmount = BigDecimal.valueOf(0.0);
+        StringBuilder reportString = new StringBuilder(
+                PrintInfoClass.getBlackText() +  PrintInfoClass.getWhiteBackground()
+                        + "Spending for " + expense.getExpenseName()
+                        + PrintInfoClass.getStandardFormat()
+                        + "\nTIME                      AMOUNT");
+        // PrintInfoClass.printDividerLine();
+        Set entries = SpendingRecordState.spendindRecordHashMap.entrySet();
+        Iterator iterator = entries.iterator();
+        while(iterator.hasNext()) {
+            Map.Entry obj = (Map.Entry)iterator.next();
+            SpendingRecordModel spendingRecord = (SpendingRecordModel) obj.getValue();
+            if (spendingRecord.getExpenseId() == expense.getId()) {
+                totalAmount = totalAmount.add(spendingRecord.getSpendingAmount());
+                reportString.append("\n").append(
+                        spendingRecord.getTime()).append(" ").append("    ").append(
+                                spendingRecord.getSpendingAmount()
+                );
+            }
+        }
+        if (totalAmount.intValue() != 0) {
+            PrintInfoClass.printDividerLine();
+            System.out.println(reportString);
+            PrintInfoClass.printDividerLine();
+            System.out.println("Total Amount: " + totalAmount);
+        }
+    }
+
+    public static void generateSpendingRecordByExpense() {
+        PrintInfoClass.printDividerLine();
+        System.out.println("Spending Record");
+        Set entries = ExpenseState.expensesHashMap.entrySet();
+        Iterator iterator = entries.iterator();
+        while(iterator.hasNext()) {
+            Map.Entry obj = (Map.Entry)iterator.next();
+            ExpenseModel expense = (ExpenseModel) obj.getValue();
+            calculateSpendingRecordByExpense(expense);
+        }
     }
 
     public static void calculateTotalWithdraws() {
@@ -128,6 +170,8 @@ public class ReportService {
     }
 
     public static void generateDepositsByIncomeSource() {
+        PrintInfoClass.printDividerLine();
+        System.out.println("Deposits");
         Set entries = IncomeSourceState.incomeHashMap.entrySet();
         Iterator iterator = entries.iterator();
         while(iterator.hasNext()) {

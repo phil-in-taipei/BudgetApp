@@ -47,6 +47,7 @@ public class InputController {
         System.out.println(UserState.usersHashMap.get(Integer.parseInt(userID)));
         PrintInfoClass.printDividerLine();
         System.out.println("Is this correct?  (Enter 'y' or 'n')");
+        PrintInfoClass.printDividerLine();
         String userConfirmation =  userConfimationScanner.nextLine();
         return userConfirmation.equalsIgnoreCase("y");
     }
@@ -324,11 +325,12 @@ public class InputController {
             PrintInfoClass.printDividerLine();
             System.out.println("Analysis of " + monthAndYear[0] + "/" + monthAndYear[1]);
             DepositService.populateDepositHashmap(userID, monthAndYear, dbConnection);
-            ReportService.calculateTotalDeposits();
             //IncomeSourceState.incomeHashMap.clear();
             //IncomeSourceService.populateIncomeHashmap(userID, dbConnection);
             ReportService.generateDepositsByIncomeSource();
+            ReportService.calculateTotalDeposits();
             ReportService.calculateTotalWithdraws();
+            ReportService.generateSpendingRecordByExpense();
             ReportService.calculateTotalSpending();
             return true;
         } else {
