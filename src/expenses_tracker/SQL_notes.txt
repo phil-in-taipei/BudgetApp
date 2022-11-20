@@ -41,4 +41,17 @@ ON user.userid = account.userId
 WHERE user.userid = 1
 AND deposit.time LIKE '2022-11%';
 
+SELECT * FROM expense_tracker.expense
+WHERE expense.user = 1;
+
+SELECT withdraw.idwithdraw, withdraw.accountId,
+withdraw.amount, withdraw.time
+FROM expense_tracker.withdraw
+JOIN expense_tracker.account
+ON withdraw.accountId = account.idaccount
+JOIN expense_tracker.user
+ON user.userid = account.userId
+WHERE user.userid = 2
+AND withdraw.time LIKE '2022-11%';
+
 

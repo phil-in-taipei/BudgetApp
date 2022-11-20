@@ -14,8 +14,6 @@ public class PrintInfoClass {
     static String STANDARD_FORMAT = "\u001B[0m";
 
     public static void printBankObjectsInState(HashMap<Integer, BankModel> banksHashMap) {
-        //System.out.println("Each element (key and value) in the HashMap using entries");
-        PrintInfoClass.printDividerLine();
         Set entries = banksHashMap.entrySet();
         Iterator iterator = entries.iterator();
         while(iterator.hasNext()) {
@@ -27,8 +25,6 @@ public class PrintInfoClass {
     }
 
     public static void printCreatePrompt(String fieldName, String submenuName) {
-        //System.out.println("Create a new " + submenuName);
-        //printDividerLine();
         System.out.println(
                 "Please enter a " + fieldName
         );
@@ -37,7 +33,6 @@ public class PrintInfoClass {
 
     public static void printDepositObjectsInState(
             HashMap<Integer, DepositModel> depositModelHashMap) {
-        PrintInfoClass.printDividerLine();
         Set entries = depositModelHashMap.entrySet();
         Iterator iterator = entries.iterator();
         while(iterator.hasNext()) {
@@ -48,12 +43,14 @@ public class PrintInfoClass {
     }
 
     public static void printDividerLine() {
-        System.out.println("-----------------------------------------------------------------------------");
+        System.out.println(
+                "----------------------------------------------------" +
+                "----------------------------------------------------"
+                + "--------------------------------------------------");
     }
 
     public static void printExpenseObjectsInState(
             HashMap<Integer, ExpenseModel> expenseModelHashMap) {
-        PrintInfoClass.printDividerLine();
         Set entries = expenseModelHashMap.entrySet();
         Iterator iterator = entries.iterator();
         while(iterator.hasNext()) {
@@ -65,7 +62,6 @@ public class PrintInfoClass {
 
     public static void printIncomeObjectsInState(
             HashMap<Integer, IncomeSourceModel> incomeSourceModelHashMap) {
-        PrintInfoClass.printDividerLine();
         Set entries = incomeSourceModelHashMap.entrySet();
         Iterator iterator = entries.iterator();
         while(iterator.hasNext()) {
@@ -147,7 +143,6 @@ public class PrintInfoClass {
 
     public static void printSavingsAccountObjectsInState(
             HashMap<Integer, SavingsAccountModel> savingsAccountModelHashMap) {
-        PrintInfoClass.printDividerLine();
         Set entries = savingsAccountModelHashMap.entrySet();
         Iterator iterator = entries.iterator();
         while(iterator.hasNext()) {
@@ -159,7 +154,6 @@ public class PrintInfoClass {
 
     public static void printSpendingRecordObjectsInState(
             HashMap<Integer, SpendingRecordModel> spendingRecordModelHashMap) {
-        PrintInfoClass.printDividerLine();
         Set entries = spendingRecordModelHashMap.entrySet();
         Iterator iterator = entries.iterator();
         while(iterator.hasNext()) {
@@ -170,8 +164,6 @@ public class PrintInfoClass {
     }
 
     public static void printUserObjectsInState(HashMap<Integer, UserModel> usersHashMap) {
-        //System.out.println("Each element (key and value) in the HashMap using entries");
-        PrintInfoClass.printDividerLine();
         Set entries = usersHashMap.entrySet();
         Iterator iterator = entries.iterator();
         while(iterator.hasNext()) {
@@ -184,7 +176,6 @@ public class PrintInfoClass {
 
     public static void printWithdrawObjectsInState(
             HashMap<Integer, WithdrawModel> withdrawModelHashMap) {
-        PrintInfoClass.printDividerLine();
         Set entries = withdrawModelHashMap.entrySet();
         Iterator iterator = entries.iterator();
         while(iterator.hasNext()) {

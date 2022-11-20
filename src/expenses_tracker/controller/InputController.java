@@ -1,6 +1,5 @@
 package expenses_tracker.controller;
 
-import java.lang.reflect.WildcardType;
 import java.util.Objects;
 import java.util.Scanner;
 import java.sql.*;
@@ -19,15 +18,25 @@ public class InputController {
 
         dbConnection = database.getConnection();
         while(continueMainLoop) {
-            PrintInfoClass.printIntro("Budget Tracker Main Menu");
+            PrintInfoClass.printIntro("Spending Tracker Main Menu");
             PrintInfoClass.printMainMenuOptionPrompt();
             Scanner eventOptionScanner = new Scanner(System.in);
             String menuOptionInput = getMenuOption(eventOptionScanner);
             continueMainLoop = handleMainMenuInput(menuOptionInput);
-            //System.out.println("Continue Main Loop: " + continueMainLoop);
         }
-        PrintInfoClass.printExit("Budget Tracker Main Menu");
+        PrintInfoClass.printExit("Spending Tracker Main Menu");
         database.closeDatabaseConnection();
+    }
+
+    public static void clearAllHashmaps() {
+        BankState.banksHashMap.clear();
+        DepositState.depositHashMap.clear();
+        ExpenseState.expensesHashMap.clear();
+        IncomeSourceState.incomeHashMap.clear();
+        SavingsAccountState.savingsAccountHashMap.clear();
+        SpendingRecordState.spendindRecordHashMap.clear();
+        UserState.usersHashMap.clear();
+        WithdrawState.withdrawHashMap.clear();
     }
 
     public static boolean confirmUser(String userID) {
@@ -38,8 +47,8 @@ public class InputController {
         System.out.println(UserState.usersHashMap.get(Integer.parseInt(userID)));
         PrintInfoClass.printDividerLine();
         System.out.println("Is this correct?  (Enter 'y' or 'n')");
-        String userConfimation =  userConfimationScanner.nextLine();
-        return userConfimation.equalsIgnoreCase("y");
+        String userConfirmation =  userConfimationScanner.nextLine();
+        return userConfirmation.equalsIgnoreCase("y");
     }
 
     public static String getMenuOption(Scanner eventOptionScanner) {
@@ -53,27 +62,26 @@ public class InputController {
     public static void handleCreateInput(
             String[] fields, String submenuName) throws SQLException {
         String[] inputData = new String[fields.length];
-        //System.out.println("The is the obj to be created: " + submenuName);
         PrintInfoClass.printDividerLine();
-        if (submenuName == "User") {
+        if (Objects.equals(submenuName, "User")) {
             UserInput.handleCreateUserInput(fields, submenuName, inputData, dbConnection);
-        } else if (submenuName == "Savings Accounts") {
+        } else if (Objects.equals(submenuName, "Savings Accounts")) {
             SavingsAccountInput.handleCreateAccountInput(fields, submenuName, inputData, dbConnection);
-        } else if (submenuName == "Deposits") {
+        } else if (Objects.equals(submenuName, "Deposits")) {
             DepositsInput.handleCreateDepositInput(fields, submenuName, inputData, dbConnection);
-        } else if (submenuName == "Withdraws") {
+        } else if (Objects.equals(submenuName, "Withdraws")) {
             WithdrawsInput.handleCreateWithdrawInput(fields, submenuName, inputData, dbConnection);
-        } else if (submenuName == "Bank") {
+        } else if (Objects.equals(submenuName, "Bank")) {
             BankInput.handleCreateBankInput(fields, submenuName, inputData, dbConnection);
-        } else if (submenuName == "Income Source") {
+        } else if (Objects.equals(submenuName, "Income Source")) {
             IncomeSourceInput.handleCreateIncomeSourceInput(
                     fields, submenuName, inputData, dbConnection
             );
-        } else if (submenuName == "Expenses") {
+        } else if (Objects.equals(submenuName, "Expenses")) {
             ExpensesInput.handleCreateExpenseInput(
                     fields, submenuName, inputData, dbConnection
             );
-        } else if (submenuName == "Spending Record") {
+        } else if (Objects.equals(submenuName, "Spending Record")) {
             SpendingRecordInput.handleSpendingRecordInput(
                     fields, submenuName, inputData, dbConnection
             );
@@ -85,16 +93,13 @@ public class InputController {
 
     public static void handleDeleteInput(
             String submenuName) throws SQLException {
-        //handleDisplayOfObjects(submenuName);
-        //System.out.println("This is the submenu name: " + submenuName);
-        if (submenuName == "User") {
+        if (Objects.equals(submenuName, "User")) {
             handleDisplayOfObjects(submenuName);
             UserInput.handleDeleteUserInput(dbConnection);
-        } else if (submenuName == "Savings Accounts") {
+        } else if (Objects.equals(submenuName, "Savings Accounts")) {
             handleDisplayOfObjects(submenuName);
-            //System.out.println("Call handle deletion of accounts ....");
             SavingsAccountInput.handleDeleteAccountInput(dbConnection);
-        } else if (submenuName == "Bank") {
+        } else if (Objects.equals(submenuName, "Bank")) {
             handleDisplayOfObjects(submenuName);
             BankInput.handleDeleteBankInput(dbConnection);
         } else {
@@ -104,24 +109,23 @@ public class InputController {
     }
 
     public static void handleDisplayOfObjects(String submenuName) {
-        //System.out.println("These are the objs to be displayed: " + submenuName);
-        if (submenuName == "User") {
+        if (Objects.equals(submenuName, "User")) {
             PrintInfoClass.printUserObjectsInState(UserState.usersHashMap);
-        } else if (submenuName == "Savings Accounts") {
+        } else if (Objects.equals(submenuName, "Savings Accounts")) {
             PrintInfoClass.printSavingsAccountObjectsInState(
                     SavingsAccountState.savingsAccountHashMap
             );
-        } else if (submenuName == "Bank") {
+        } else if (Objects.equals(submenuName, "Bank")) {
             PrintInfoClass.printBankObjectsInState(BankState.banksHashMap);
-        } else if (submenuName == "Deposits") {
+        } else if (Objects.equals(submenuName, "Deposits")) {
             PrintInfoClass.printDepositObjectsInState(DepositState.depositHashMap);
-        } else if (submenuName == "Withdraws") {
+        } else if (Objects.equals(submenuName, "Withdraws")) {
             PrintInfoClass.printWithdrawObjectsInState(WithdrawState.withdrawHashMap);
-        } else if (submenuName == "Income Source") {
+        } else if (Objects.equals(submenuName, "Income Source")) {
             PrintInfoClass.printIncomeObjectsInState(IncomeSourceState.incomeHashMap);
-        } else if (submenuName == "Expenses") {
+        } else if (Objects.equals(submenuName, "Expenses")) {
             PrintInfoClass.printExpenseObjectsInState(ExpenseState.expensesHashMap);
-        } else if (submenuName == "Spending Record") {
+        } else if (Objects.equals(submenuName, "Spending Record")) {
             PrintInfoClass.printSpendingRecordObjectsInState(
                     SpendingRecordState.spendindRecordHashMap);
         } else {
@@ -130,7 +134,7 @@ public class InputController {
     }
 
     public static boolean handleMainMenuInput(String menuOptionInput) throws SQLException {
-        //System.out.println("Calling Handle Main Menu Method with input: " + menuOptionInput);
+        clearAllHashmaps();
         if (Objects.equals(menuOptionInput, "1")) {
             UserService.populateUserHashmap(dbConnection);
             continueSubMenuLoop = true;
@@ -141,7 +145,6 @@ public class InputController {
                 Scanner eventOptionScanner = new Scanner(System.in);
                 String subMenuOption = getMenuOption(eventOptionScanner);
                 continueSubMenuLoop = handleSubMenuInput(subMenuOption, "User", fields);
-                //System.out.println("Continue submenu loop: " + continueSubMenuLoop);
             }
             return true;
         } else if (Objects.equals(menuOptionInput, "2")) {
@@ -156,7 +159,6 @@ public class InputController {
                 Scanner eventOptionScanner = new Scanner(System.in);
                 String subMenuOption = getMenuOption(eventOptionScanner);
                 continueSubMenuLoop = handleSubMenuInput(subMenuOption, "Savings Accounts", fields);
-                //System.out.println("Continue submenu loop: " + continueSubMenuLoop);
             }
             PrintInfoClass.printSubMenuOptionPrompt("Savings Accounts");
             return true;
@@ -170,7 +172,6 @@ public class InputController {
                 Scanner eventOptionScanner = new Scanner(System.in);
                 String subMenuOption = getMenuOption(eventOptionScanner);
                 continueSubMenuLoop = handleSubMenuInput(subMenuOption, "Bank", fields);
-                //System.out.println("Continue submenu loop: " + continueSubMenuLoop);
             }
             return true;
         } else if (Objects.equals(menuOptionInput, "4")) {
@@ -202,7 +203,6 @@ public class InputController {
                 Scanner eventOptionScanner = new Scanner(System.in);
                 String subMenuOption = getMenuOption(eventOptionScanner);
                 continueSubMenuLoop = handleSubMenuInput(subMenuOption, "Deposits", fields);
-                //System.out.println("Continue submenu loop: " + continueSubMenuLoop);
             }
             return true;
         } else if (Objects.equals(menuOptionInput, "6")) {
@@ -216,7 +216,6 @@ public class InputController {
                 Scanner eventOptionScanner = new Scanner(System.in);
                 String subMenuOption = getMenuOption(eventOptionScanner);
                 continueSubMenuLoop = handleSubMenuInput(subMenuOption, "Expenses", fields);
-                //System.out.println("Continue submenu loop: " + continueSubMenuLoop);
             }
 
             return true;
@@ -231,11 +230,9 @@ public class InputController {
                 Scanner eventOptionScanner = new Scanner(System.in);
                 String subMenuOption = getMenuOption(eventOptionScanner);
                 continueSubMenuLoop = handleSubMenuInput(subMenuOption, "Income Source", fields);
-                //System.out.println("Continue submenu loop: " + continueSubMenuLoop);
             }
             return true;
         } else if (Objects.equals(menuOptionInput, "8")) {
-            //UserService.populateUserHashmap(dbConnection);
             ExpenseService.populateExpenseHashmap(dbConnection);
             SpendingRecordService.populateSpendingRecordHashmap(dbConnection);
             continueSubMenuLoop = true;
@@ -246,15 +243,14 @@ public class InputController {
                 Scanner eventOptionScanner = new Scanner(System.in);
                 String subMenuOption = getMenuOption(eventOptionScanner);
                 continueSubMenuLoop = handleSubMenuInput(subMenuOption, "Spending Record", fields);
-                //System.out.println("Continue submenu loop: " + continueSubMenuLoop);
             }
             return true;
         } else if (Objects.equals(menuOptionInput, "9")) {
             UserService.populateUserHashmap(dbConnection);
             BankService.populateBankHashmap(dbConnection);
-            DepositState.depositHashMap.clear();
-            //continueSubMenuLoop = true;
+            IncomeSourceService.populateIncomeHashmap(dbConnection);
             System.out.println("Welcome to Monthly Reports");
+            PrintInfoClass.printDividerLine();
             Scanner reportsOptionScanner = new Scanner(System.in);
             PrintInfoClass.printUserObjectsInState(UserState.usersHashMap);
             System.out.println("Please enter your user ID:");
@@ -297,27 +293,35 @@ public class InputController {
             String [] monthAndYear = handleMonthAndYearInput();
             PrintInfoClass.printDividerLine();
             System.out.println("Deposits for " + monthAndYear[0] + "/" + monthAndYear[1]);
+            PrintInfoClass.printDividerLine();
             DepositService.populateDepositHashmap(userID, monthAndYear, dbConnection);
             PrintInfoClass.printDepositObjectsInState(DepositState.depositHashMap);
-            //handleCreateInput(fields, submenuName);
             return true;
         } else if (Objects.equals(reportsMenuOptionInput, "2")) {
+            SavingsAccountService.populateAccountsHashmap(userID, dbConnection);
             String [] monthAndYear = handleMonthAndYearInput();
             PrintInfoClass.printDividerLine();
             System.out.println("Withdraws for " + monthAndYear[0] + "/" + monthAndYear[1]);
-            //handleUpdateInput(fields, submenuName);
+            PrintInfoClass.printDividerLine();
+            WithdrawService.populateWithdrawHashmap(userID, monthAndYear, dbConnection);
+            PrintInfoClass.printWithdrawObjectsInState(WithdrawState.withdrawHashMap);
             return true;
         } else if (Objects.equals(reportsMenuOptionInput, "3")) {
+            ExpenseService.populateExpenseHashmap(userID, dbConnection);
             String [] monthAndYear = handleMonthAndYearInput();
             PrintInfoClass.printDividerLine();
             System.out.println("Expenses for " + monthAndYear[0] + "/" + monthAndYear[1]);
-            //handleDeleteInput(submenuName);
+            PrintInfoClass.printDividerLine();
+            SpendingRecordService.populateSpendingRecordHashmap(userID, monthAndYear, dbConnection);
+            PrintInfoClass.printSpendingRecordObjectsInState(
+                    SpendingRecordState.spendindRecordHashMap);
             return true;
         } else if (Objects.equals(reportsMenuOptionInput, "4")) {
+            ExpenseService.populateExpenseHashmap(userID, dbConnection);
             String [] monthAndYear = handleMonthAndYearInput();
             PrintInfoClass.printDividerLine();
             System.out.println("Analysis of " + monthAndYear[0] + "/" + monthAndYear[1]);
-            //handleDisplayOfObjects(submenuName);
+            PrintInfoClass.printDividerLine();
             return true;
         } else {
             System.out.println("Back to Main Menu");
@@ -329,25 +333,16 @@ public class InputController {
             String subMenuOptionInput, String submenuName,
             String[] fields
         ) throws SQLException {
-        //System.out.println("These are the fields:");
-        //for (String field : fields) {
-        //    System.out.print(" " + field);
-        //}
-        //System.out.println("\n");
         if (Objects.equals(subMenuOptionInput, "1")) {
-            //System.out.println("Create " +submenuName + " Menu");
             handleCreateInput(fields, submenuName);
             return true;
         } else if (Objects.equals(subMenuOptionInput, "2")) {
-            //System.out.println("Update " +submenuName + " Menu");
             handleUpdateInput(fields, submenuName);
             return true;
         } else if (Objects.equals(subMenuOptionInput, "3")) {
-            //System.out.println("Delete " +submenuName + " Menu");
             handleDeleteInput(submenuName);
             return true;
         } else if (Objects.equals(subMenuOptionInput, "4")) {
-            //System.out.println("Display " +submenuName + " Menu");
             handleDisplayOfObjects(submenuName);
             return true;
         } else {
@@ -359,15 +354,13 @@ public class InputController {
     public static void handleUpdateInput(
             String[] fields, String submenuName) throws SQLException {
         String[] inputData = new String[fields.length];
-        //handleDisplayOfObjects(submenuName);
-        //System.out.println("The is the obj to be updated: " + submenuName);
-        if (submenuName == "User") {
+        if (Objects.equals(submenuName, "User")) {
             handleDisplayOfObjects(submenuName);
             UserInput.handleUpdateUserInput(fields, submenuName,inputData, dbConnection);
-        } else if (submenuName == "Savings Accounts") {
+        } else if (Objects.equals(submenuName, "Savings Accounts")) {
             handleDisplayOfObjects(submenuName);
             SavingsAccountInput.handleUpdateAccountInput(fields, submenuName, inputData, dbConnection);
-        } else if (submenuName == "Bank") {
+        } else if (Objects.equals(submenuName, "Bank")) {
             handleDisplayOfObjects(submenuName);
             BankInput.handleUpdateBankInput(fields, submenuName, inputData, dbConnection);
         } else {

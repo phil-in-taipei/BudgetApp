@@ -54,6 +54,30 @@ public class WithdrawService {
             createNewWithdraw(id, accountId, amount, time);
         }
     }
+    public static void populateWithdrawHashmap(
+            String userID, String[] monthAndYear, Connection dbConnection
+    ) throws SQLException {
+        String monthYearDate = "'" + monthAndYear[1] + "-" + monthAndYear[0] + "%'";
+        statement = dbConnection.createStatement();
+        String sql = "SELECT withdraw.idwithdraw, withdraw.accountId, " +
+                "withdraw.amount, withdraw.time " +
+                "FROM expense_tracker.withdraw " +
+                "JOIN expense_tracker.account " +
+                "ON withdraw.accountId = account.idaccount " +
+                "JOIN expense_tracker.user " +
+                "ON user.userid = account.userId " +
+                "WHERE user.userid =" + userID + " " +
+                "AND withdraw.time LIKE " + monthYearDate;
+        resultSetWithdraws = statement
+                .executeQuery(sql);
+        while (resultSetWithdraws.next()) {
+            int id = resultSetWithdraws.getInt("idwithdraw");
+            int accountId = resultSetWithdraws.getInt("accountId");
+            BigDecimal amount = resultSetWithdraws.getBigDecimal("amount");
+            Timestamp time = resultSetWithdraws.getTimestamp("time");
+            createNewWithdraw(id, accountId, amount, time);
+        }
+    }
 
     public static void updateWithdrawHashmap(Connection dbConnection) throws SQLException {
         statement = dbConnection.createStatement();

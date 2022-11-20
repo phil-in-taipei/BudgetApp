@@ -1,9 +1,7 @@
 package expenses_tracker.services;
 
 import expenses_tracker.data.DepositState;
-import expenses_tracker.data.SavingsAccountState;
 import expenses_tracker.models.DepositModel;
-import expenses_tracker.models.SavingsAccountModel;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -55,7 +53,7 @@ public class DepositService {
             int accountId = resultSetUsers.getInt("accountId");
             BigDecimal amount = resultSetUsers.getBigDecimal("amount");
             Timestamp time = resultSetUsers.getTimestamp("time");
-            createNewDeposit(id, amount, time, accountId, incomeSourceId);
+            createNewDeposit(id, amount, time, incomeSourceId, accountId);
         }
     }
 
@@ -84,7 +82,7 @@ public class DepositService {
             int accountId = resultSetUsers.getInt("accountId");
             BigDecimal amount = resultSetUsers.getBigDecimal("amount");
             Timestamp time = resultSetUsers.getTimestamp("time");
-            createNewDeposit(id, amount, time, accountId, incomeSourceId);
+            createNewDeposit(id, amount, time, incomeSourceId, accountId);
         }
     }
 

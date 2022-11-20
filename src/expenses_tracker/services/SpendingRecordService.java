@@ -15,6 +15,7 @@ public class SpendingRecordService {
         SpendingRecordModel newSpendingRecord = new SpendingRecordModel(
                 id, expenseId, amount, time
         );
+        //System.out.println("New spending record created: " + newSpendingRecord.getId());
         SpendingRecordState.spendindRecordHashMap.put(
                 newSpendingRecord.getId(), newSpendingRecord
         );
@@ -53,6 +54,33 @@ public class SpendingRecordService {
             int expenseId = resultSetSpendingRecord.getInt("expense_id");
             BigDecimal amount = resultSetSpendingRecord.getBigDecimal("amount");
             Timestamp time = resultSetSpendingRecord.getTimestamp("time");
+            createNewSpendingRecord(id, expenseId, amount, time);
+        }
+    }
+
+    public static void populateSpendingRecordHashmap(
+            String userID, String[] monthAndYear,
+            Connection dbConnection) throws SQLException {
+        String monthYearDate = "'" + monthAndYear[1] + "-" + monthAndYear[0] + "%'";
+        statement = dbConnection.createStatement();
+        String sql = "SELECT spendingRecord.spendingRecordId, spendingRecord.expense_id, " +
+                "spendingRecord.amount, spendingRecord.time " +
+                "FROM expense_tracker.spendingRecord " +
+                "JOIN expense_tracker.expense " +
+                "ON expense.idexpense = spendingRecord.expense_id " +
+                "JOIN expense_tracker.user " +
+                "ON user.userid = expense.user " +
+                "WHERE user.userId = " + userID + " " +
+                "AND spendingRecord.time LIKE " + monthYearDate;
+        //System.out.println(sql);
+        resultSetSpendingRecord = statement
+                .executeQuery(sql);
+        while (resultSetSpendingRecord.next()) {
+            int id = resultSetSpendingRecord.getInt("spendingRecordId");
+            int expenseId = resultSetSpendingRecord.getInt("expense_id");
+            BigDecimal amount = resultSetSpendingRecord.getBigDecimal("amount");
+            Timestamp time = resultSetSpendingRecord.getTimestamp("time");
+            //System.out.println(id + " " + expenseId + " " + amount + " " + time);
             createNewSpendingRecord(id, expenseId, amount, time);
         }
     }

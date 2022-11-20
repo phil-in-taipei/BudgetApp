@@ -75,6 +75,20 @@ public class SavingsAccountService {
         }
     }
 
+    public static void populateAccountsHashmap(String userID, Connection dbConnection) throws SQLException {
+        statement = dbConnection.createStatement();
+        resultSetUsers = statement
+                .executeQuery("select * from expense_tracker.account " +
+                        "WHERE expense_tracker.account.userId = " + userID);
+        while (resultSetUsers.next()) {
+            int id = resultSetUsers.getInt("idaccount");
+            int bankId = resultSetUsers.getInt("bankId");
+            int userId = resultSetUsers.getInt("userId");
+            BigDecimal balance = resultSetUsers.getBigDecimal("balance");
+            createNewSavingsAccount(id, userId, bankId, balance);
+        }
+    }
+
     public static void updateAccountsHashmap(Connection dbConnection) throws SQLException {
         statement = dbConnection.createStatement();
         // Result set get the result of the SQL query

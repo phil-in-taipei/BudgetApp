@@ -51,6 +51,19 @@ public class IncomeSourceService {
         }
     }
 
+    public static void populateIncomeHashmap(String userID, Connection dbConnection) throws SQLException {
+        statement = dbConnection.createStatement();
+        resultSetIncome = statement
+                .executeQuery("select * from expense_tracker.incomeSource " +
+                        "WHERE incomeSource.user = " + userID);
+        while (resultSetIncome.next()) {
+            int id = resultSetIncome.getInt("idincomeSource");
+            String incomeName = resultSetIncome.getString("income_name");
+            int userId = resultSetIncome.getInt("user");
+            createNewIncomeSource(id, incomeName, userId);
+        }
+    }
+
     public static void updateIncomeHashmap(Connection dbConnection) throws SQLException {
         statement = dbConnection.createStatement();
         // Result set get the result of the SQL query
