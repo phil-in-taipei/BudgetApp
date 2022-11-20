@@ -1,11 +1,8 @@
 package expenses_tracker.services;
 
 import expenses_tracker.controller.PrintInfoClass;
-import expenses_tracker.data.DepositState;
-import expenses_tracker.data.IncomeSourceState;
-import expenses_tracker.models.DepositModel;
-import expenses_tracker.models.ExpenseModel;
-import expenses_tracker.models.IncomeSourceModel;
+import expenses_tracker.data.*;
+import expenses_tracker.models.*;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -48,6 +45,55 @@ public class ReportService {
         System.out.println(
                 PrintInfoClass.getBlackText() +  PrintInfoClass.getWhiteBackground()
                 + "Total Deposit Amount: " + totalAmount + PrintInfoClass.getStandardFormat()
+        );
+    }
+
+    public static void calculateTotalSpending() {
+        BigDecimal totalAmount = BigDecimal.valueOf(0.0);
+        PrintInfoClass.printDividerLine();
+        System.out.println("Spending Record");
+        PrintInfoClass.printDividerLine();
+        System.out.println("TIME                      AMOUNT     EXPENSE");
+        PrintInfoClass.printDividerLine();
+        Set entries = SpendingRecordState.spendindRecordHashMap.entrySet();
+        Iterator iterator = entries.iterator();
+        while(iterator.hasNext()) {
+            Map.Entry obj = (Map.Entry)iterator.next();
+            SpendingRecordModel spendingRecord = (SpendingRecordModel) obj.getValue();
+            totalAmount = totalAmount.add(spendingRecord.getSpendingAmount());
+            ExpenseModel expense = ExpenseState.expensesHashMap.get(spendingRecord.getExpenseId());
+            System.out.println(spendingRecord.getTime() + " "
+                    +  "    " + spendingRecord.getSpendingAmount()
+                    +  "    " + expense.getExpenseName());
+        }
+        PrintInfoClass.printDividerLine();
+        System.out.println(
+                PrintInfoClass.getBlackText() +  PrintInfoClass.getWhiteBackground()
+                        + "Total Spending Amount: " + totalAmount + PrintInfoClass.getStandardFormat()
+        );
+    }
+
+    public static void calculateTotalWithdraws() {
+        BigDecimal totalAmount = BigDecimal.valueOf(0.0);
+        PrintInfoClass.printDividerLine();
+        System.out.println("Withdraws");
+        PrintInfoClass.printDividerLine();
+        System.out.println("TIME                      AMOUNT");
+        PrintInfoClass.printDividerLine();
+        Set entries = WithdrawState.withdrawHashMap.entrySet();
+        Iterator iterator = entries.iterator();
+        while(iterator.hasNext()) {
+            Map.Entry obj = (Map.Entry)iterator.next();
+            WithdrawModel withdraw = (WithdrawModel) obj.getValue();
+            totalAmount = totalAmount.add(withdraw.getWithdrawAmount());
+            System.out.println(withdraw.getTime() + " "
+                   +  "    " + withdraw.getWithdrawAmount()
+            );
+        }
+        PrintInfoClass.printDividerLine();
+        System.out.println(
+                PrintInfoClass.getBlackText() +  PrintInfoClass.getWhiteBackground()
+                        + "Total Withdraw Amount: " + totalAmount + PrintInfoClass.getStandardFormat()
         );
     }
 

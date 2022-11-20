@@ -319,6 +319,8 @@ public class InputController {
         } else if (Objects.equals(reportsMenuOptionInput, "4")) {
             ExpenseService.populateExpenseHashmap(userID, dbConnection);
             String [] monthAndYear = handleMonthAndYearInput();
+            WithdrawService.populateWithdrawHashmap(userID, monthAndYear, dbConnection);
+            SpendingRecordService.populateSpendingRecordHashmap(userID, monthAndYear, dbConnection);
             PrintInfoClass.printDividerLine();
             System.out.println("Analysis of " + monthAndYear[0] + "/" + monthAndYear[1]);
             DepositService.populateDepositHashmap(userID, monthAndYear, dbConnection);
@@ -326,6 +328,8 @@ public class InputController {
             //IncomeSourceState.incomeHashMap.clear();
             //IncomeSourceService.populateIncomeHashmap(userID, dbConnection);
             ReportService.generateDepositsByIncomeSource();
+            ReportService.calculateTotalWithdraws();
+            ReportService.calculateTotalSpending();
             return true;
         } else {
             System.out.println("Back to Main Menu");
