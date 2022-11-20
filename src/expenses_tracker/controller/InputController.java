@@ -321,7 +321,11 @@ public class InputController {
             String [] monthAndYear = handleMonthAndYearInput();
             PrintInfoClass.printDividerLine();
             System.out.println("Analysis of " + monthAndYear[0] + "/" + monthAndYear[1]);
-            PrintInfoClass.printDividerLine();
+            DepositService.populateDepositHashmap(userID, monthAndYear, dbConnection);
+            ReportService.calculateTotalDeposits();
+            //IncomeSourceState.incomeHashMap.clear();
+            //IncomeSourceService.populateIncomeHashmap(userID, dbConnection);
+            ReportService.generateDepositsByIncomeSource();
             return true;
         } else {
             System.out.println("Back to Main Menu");

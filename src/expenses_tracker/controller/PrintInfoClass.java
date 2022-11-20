@@ -71,6 +71,18 @@ public class PrintInfoClass {
         PrintInfoClass.printDividerLine();
     }
 
+    public static String getBlackText() {
+        return BLACK_TEXT;
+    }
+
+    public static String getWhiteBackground() {
+        return WHITE_BACKGROUND;
+    }
+
+    public static String getStandardFormat() {
+        return STANDARD_FORMAT;
+    }
+
     public static void printIntro(String exerciseName) {
         printDividerLine();
         System.out.println(
