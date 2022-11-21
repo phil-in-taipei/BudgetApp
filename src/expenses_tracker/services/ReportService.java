@@ -12,23 +12,30 @@ import java.util.Set;
 
 public class ReportService {
 
-    public static void printExpenseObjectsInState(
-            HashMap<Integer, ExpenseModel> expenseModelHashMap) {
-        Set entries = expenseModelHashMap.entrySet();
-        Iterator iterator = entries.iterator();
-        while(iterator.hasNext()) {
-            Map.Entry userObj = (Map.Entry)iterator.next();
-            System.out.println(userObj.getValue());
-        }
+    public static void analyzeMonthlyFinance(
+            BigDecimal totalDeposits, BigDecimal totalWithdraws,
+            BigDecimal totalSpending) {
         PrintInfoClass.printDividerLine();
+        BigDecimal monthlyEarnings = totalDeposits.subtract(totalWithdraws);
+        System.out.println(
+                PrintInfoClass.getBlackText() + PrintInfoClass.getWhiteBackground()
+                + "This month after withdraws, you made this amount: $"
+                + monthlyEarnings
+                + PrintInfoClass.getStandardFormat()
+        );
+        PrintInfoClass.printDividerLine();
+        BigDecimal unaccountedSpending = totalWithdraws.subtract(totalSpending);
+        System.out.println(
+                PrintInfoClass.getBlackText() + PrintInfoClass.getWhiteBackground()
+                + "This month, $" + totalDeposits
+                + " in withdraws was spent on unaccounted expenses: $"
+                + unaccountedSpending
+                + PrintInfoClass.getStandardFormat()
+        );
     }
 
-    public static void calculateTotalDeposits() {
+    public static BigDecimal calculateTotalDeposits() {
         BigDecimal totalAmount = BigDecimal.valueOf(0.0);
-        //PrintInfoClass.printDividerLine();
-        //System.out.println("Deposits");
-        //PrintInfoClass.printDividerLine();
-        //System.out.println("TIME                      AMOUNT     SOURCE");
         PrintInfoClass.printDividerLine();
         Set entries = DepositState.depositHashMap.entrySet();
         Iterator iterator = entries.iterator();
@@ -37,23 +44,41 @@ public class ReportService {
             DepositModel deposit = (DepositModel) obj.getValue();
             totalAmount = totalAmount.add(deposit.getDepositAmount());
             IncomeSourceModel source = IncomeSourceState.incomeHashMap.get(deposit.getIncomeSourceId());
-            //System.out.println(deposit.getTime() + " "
-            //        +  "    " + deposit.getDepositAmount()
-            //        +  "    " + source.getIncomeSourceName());
         }
-        //PrintInfoClass.printDividerLine();
         System.out.println(
                 PrintInfoClass.getBlackText() +  PrintInfoClass.getWhiteBackground()
                 + "Total Deposit Amount: " + totalAmount + PrintInfoClass.getStandardFormat()
         );
+        return totalAmount;
     }
 
-    public static void calculateTotalSpending() {
+    public static void calculateAndDisplayTotalDeposits() {
         BigDecimal totalAmount = BigDecimal.valueOf(0.0);
         PrintInfoClass.printDividerLine();
-        //System.out.println("Spending Record");
-        //PrintInfoClass.printDividerLine();
-        //System.out.println("TIME                      AMOUNT     EXPENSE");
+        System.out.println("Deposits");
+        PrintInfoClass.printDividerLine();
+        System.out.println("TIME                      AMOUNT     SOURCE");
+        PrintInfoClass.printDividerLine();
+        Set entries = DepositState.depositHashMap.entrySet();
+        Iterator iterator = entries.iterator();
+        while(iterator.hasNext()) {
+            Map.Entry obj = (Map.Entry)iterator.next();
+            DepositModel deposit = (DepositModel) obj.getValue();
+            totalAmount = totalAmount.add(deposit.getDepositAmount());
+            IncomeSourceModel source = IncomeSourceState.incomeHashMap.get(deposit.getIncomeSourceId());
+            System.out.println(deposit.getTime() + " "
+                    +  "    " + deposit.getDepositAmount()
+                    +  "    " + source.getIncomeSourceName());
+        }
+        PrintInfoClass.printDividerLine();
+        System.out.println(
+                PrintInfoClass.getBlackText() +  PrintInfoClass.getWhiteBackground()
+                        + "Total Deposit Amount: " + totalAmount + PrintInfoClass.getStandardFormat()
+        );
+    }
+
+    public static BigDecimal calculateTotalSpending() {
+        BigDecimal totalAmount = BigDecimal.valueOf(0.0);
         PrintInfoClass.printDividerLine();
         Set entries = SpendingRecordState.spendindRecordHashMap.entrySet();
         Iterator iterator = entries.iterator();
@@ -62,11 +87,34 @@ public class ReportService {
             SpendingRecordModel spendingRecord = (SpendingRecordModel) obj.getValue();
             totalAmount = totalAmount.add(spendingRecord.getSpendingAmount());
             ExpenseModel expense = ExpenseState.expensesHashMap.get(spendingRecord.getExpenseId());
-            //System.out.println(spendingRecord.getTime() + " "
-            //        +  "    " + spendingRecord.getSpendingAmount()
-            //        +  "    " + expense.getExpenseName());
+
         }
-        //PrintInfoClass.printDividerLine();
+        System.out.println(
+                PrintInfoClass.getBlackText() +  PrintInfoClass.getWhiteBackground()
+                        + "Total Spending Amount: " + totalAmount + PrintInfoClass.getStandardFormat()
+        );
+        return totalAmount;
+    }
+
+    public static void calculateAndDisplayTotalSpending() {
+        BigDecimal totalAmount = BigDecimal.valueOf(0.0);
+        PrintInfoClass.printDividerLine();
+        System.out.println("Spending Record");
+        PrintInfoClass.printDividerLine();
+        System.out.println("TIME                      AMOUNT     EXPENSE");
+        PrintInfoClass.printDividerLine();
+        Set entries = SpendingRecordState.spendindRecordHashMap.entrySet();
+        Iterator iterator = entries.iterator();
+        while(iterator.hasNext()) {
+            Map.Entry obj = (Map.Entry)iterator.next();
+            SpendingRecordModel spendingRecord = (SpendingRecordModel) obj.getValue();
+            totalAmount = totalAmount.add(spendingRecord.getSpendingAmount());
+            ExpenseModel expense = ExpenseState.expensesHashMap.get(spendingRecord.getExpenseId());
+            System.out.println(spendingRecord.getTime() + " "
+                    +  "    " + spendingRecord.getSpendingAmount()
+                    +  "    " + expense.getExpenseName());
+        }
+        PrintInfoClass.printDividerLine();
         System.out.println(
                 PrintInfoClass.getBlackText() +  PrintInfoClass.getWhiteBackground()
                         + "Total Spending Amount: " + totalAmount + PrintInfoClass.getStandardFormat()
@@ -115,7 +163,7 @@ public class ReportService {
         }
     }
 
-    public static void calculateTotalWithdraws() {
+    public static BigDecimal calculateTotalWithdraws() {
         BigDecimal totalAmount = BigDecimal.valueOf(0.0);
         PrintInfoClass.printDividerLine();
         System.out.println("Withdraws");
@@ -137,6 +185,7 @@ public class ReportService {
                 PrintInfoClass.getBlackText() +  PrintInfoClass.getWhiteBackground()
                         + "Total Withdraw Amount: " + totalAmount + PrintInfoClass.getStandardFormat()
         );
+        return totalAmount;
     }
 
     public static void calculateDepositsByIncomeSource(

@@ -1,5 +1,6 @@
 package expenses_tracker.controller;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Scanner;
 import java.sql.*;
@@ -296,7 +297,8 @@ public class InputController {
             System.out.println("Deposits for " + monthAndYear[0] + "/" + monthAndYear[1]);
             PrintInfoClass.printDividerLine();
             DepositService.populateDepositHashmap(userID, monthAndYear, dbConnection);
-            PrintInfoClass.printDepositObjectsInState(DepositState.depositHashMap);
+            ReportService.calculateAndDisplayTotalDeposits();
+            //PrintInfoClass.printDepositObjectsInState(DepositState.depositHashMap);
             return true;
         } else if (Objects.equals(reportsMenuOptionInput, "2")) {
             SavingsAccountService.populateAccountsHashmap(userID, dbConnection);
@@ -305,7 +307,8 @@ public class InputController {
             System.out.println("Withdraws for " + monthAndYear[0] + "/" + monthAndYear[1]);
             PrintInfoClass.printDividerLine();
             WithdrawService.populateWithdrawHashmap(userID, monthAndYear, dbConnection);
-            PrintInfoClass.printWithdrawObjectsInState(WithdrawState.withdrawHashMap);
+            ReportService.calculateTotalWithdraws();
+            //PrintInfoClass.printWithdrawObjectsInState(WithdrawState.withdrawHashMap);
             return true;
         } else if (Objects.equals(reportsMenuOptionInput, "3")) {
             ExpenseService.populateExpenseHashmap(userID, dbConnection);
@@ -314,8 +317,9 @@ public class InputController {
             System.out.println("Expenses for " + monthAndYear[0] + "/" + monthAndYear[1]);
             PrintInfoClass.printDividerLine();
             SpendingRecordService.populateSpendingRecordHashmap(userID, monthAndYear, dbConnection);
-            PrintInfoClass.printSpendingRecordObjectsInState(
-                    SpendingRecordState.spendindRecordHashMap);
+            ReportService.calculateAndDisplayTotalSpending();
+            //PrintInfoClass.printSpendingRecordObjectsInState(
+            //        SpendingRecordState.spendindRecordHashMap);
             return true;
         } else if (Objects.equals(reportsMenuOptionInput, "4")) {
             ExpenseService.populateExpenseHashmap(userID, dbConnection);
@@ -328,10 +332,11 @@ public class InputController {
             //IncomeSourceState.incomeHashMap.clear();
             //IncomeSourceService.populateIncomeHashmap(userID, dbConnection);
             ReportService.generateDepositsByIncomeSource();
-            ReportService.calculateTotalDeposits();
-            ReportService.calculateTotalWithdraws();
+            BigDecimal totalDeposits = ReportService.calculateTotalDeposits();
+            BigDecimal totalWithdraws = ReportService.calculateTotalWithdraws();
             ReportService.generateSpendingRecordByExpense();
-            ReportService.calculateTotalSpending();
+            BigDecimal totalSpending = ReportService.calculateTotalSpending();
+            ReportService.analyzeMonthlyFinance(totalDeposits, totalWithdraws, totalSpending);
             return true;
         } else {
             System.out.println("Back to Main Menu");
