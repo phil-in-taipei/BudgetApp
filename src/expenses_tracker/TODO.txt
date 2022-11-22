@@ -1,0 +1,5 @@
+1.) Input validation (generally for type values, but especially so that
+    users can only enter values that correspond to their user id
+2.) Get rid of nested loops (unnecessary after all values of foreign keys
+    only correspond to values linked to user id)
+3.) Interfaces for models and services
